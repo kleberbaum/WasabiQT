@@ -39,3 +39,10 @@ target_link_libraries(layer_paint_test PRIVATE
     Qt6::Test
     Qt6::Gui)
 add_test(NAME layer_paint COMMAND layer_paint_test)
+
+# M6 — layout expansion: groupdef + sendparams resolution.
+add_executable(layout_test layout_test.cpp)
+target_link_libraries(layout_test PRIVATE
+    wasabiqt
+    Qt6::Test)
+add_test(NAME layout COMMAND layout_test)
