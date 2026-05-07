@@ -1,8 +1,8 @@
-// M2 — sanity test for the leaked Maki VM compiled into libwasabiqt.
+// M2, sanity test for the leaked Maki VM compiled into libwasabiqt.
 //
-// We don't run scripts here; we just verify the VM links and accepts
+// We don't run scripts here, we just verify the VM links and accepts
 // a real .maki blob via VCPU::addScript() (forwarded through the
-// WasabiQt::Maki bridge) without crashing.  Real script dispatch
+// WasabiQt::Maki bridge) without crashing. Real script dispatch
 // needs the script bindings (M3+).
 
 #include "../wasabi-port/maki-bridge.h"

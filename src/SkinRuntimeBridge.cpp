@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Florian Kleber
 //
-// SkinRuntimeBridge.cpp — Qt-side bridge accessors for the
-// maki-bindings.cpp method bodies.  Sole TU exposing widget-tree
+// SkinRuntimeBridge.cpp, Qt-side bridge accessors for the
+// maki-bindings.cpp method bodies. Sole TU exposing widget-tree
 // operations through a simple C ABI so wasabi-port's TUs (which
 // avoid Qt to dodge bfc/platform/linux.h's macro pollution) can
 // still mutate widgets.
@@ -23,7 +23,7 @@
 namespace WasabiQt {
 
 namespace {
-// Active widget map — set by SkinRuntime each time it (re)loads.
+// Active widget map, set by SkinRuntime each time it (re)loads.
 // Maps widget id → ResolvedWidget pointer + the ScriptObject handle
 // the leaked VM dispatches against.
 struct WidgetEntry {
@@ -42,7 +42,7 @@ QString fromWide(const wchar_t *s) {
 
 // Called by SkinRuntime after every successful loadScripts pass.
 // Registers the widget under both its `id` and (when present) its
-// `instanceid` — Wasabi's findObject semantics treat instance names
+// `instanceid`, Wasabi's findObject semantics treat instance names
 // as first-class lookup keys.
 void registerWidgetForScripts(const QString &id, Layout::ResolvedWidget *w,
                               void *scriptObjectHandle) {
@@ -57,7 +57,7 @@ void clearWidgetRegistry() {
 }
 
 // SkinView calls this so script-side mutations of widget attrs can
-// kick a repaint.  Pass nullptr to disable.
+// kick a repaint. Pass nullptr to disable.
 void registerSkinRepaintCallback(std::function<void()> cb) {
     g_repaint = std::move(cb);
 }
@@ -76,7 +76,7 @@ void *wq_widget_findById(const wchar_t *id) {
 
 void wq_widget_setAttr(void *handle, const wchar_t *name, const wchar_t *value) {
     if (!handle || !name) return;
-    // The handle is a WidgetScriptObject*.  We get its opaque widget
+    // The handle is a WidgetScriptObject*. We get its opaque widget
     // ptr via the public bridge (avoids re-including the leaked
     // ScriptObject header here).
     void *opaque = WasabiQt::Maki::opaqueOf(handle);

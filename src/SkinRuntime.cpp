@@ -28,17 +28,17 @@ void clearWidgetRegistry();
 namespace WasabiQt {
 
 struct SkinRuntime::Impl {
-    // Per-widget ScriptObject handles, keyed by widget id.  A handle
+    // Per-widget ScriptObject handles, keyed by widget id. A handle
     // is created once per unique id so script-side identity holds
     // (`findObject(X) == findObject(X)`).
     QHash<QString, void *> widgetObjects;
 
-    // Per-script SystemObject handles in load order.  Registered with
+    // Per-script SystemObject handles in load order. Registered with
     // upstream's SOM::getSystemObjectByScriptId so addScript can bind
     // each as var[0] of its script.
     QList<void *> systemObjects;
 
-    // Per-script `<script param="…">` strings.  std::wstring so the
+    // Per-script `<script param="…">` strings. std::wstring so the
     // wchar_t* exposed to the bindings layer stays valid until
     // destroyAll() runs.
     std::vector<std::wstring> scriptParams;
@@ -92,8 +92,8 @@ int SkinRuntime::loadScripts(const SkinXml::Document &doc,
     // 1) Build the widget-object table.
     registerWidgets(root, m_d->widgetObjects);
 
-    // 2) Load every <script file=…/> the skin references.  Use the
-    // ScriptRef list (carries both file + param) when present; fall
+    // 2) Load every <script file=…/> the skin references. Use the
+    // ScriptRef list (carries both file + param) when present, fall
     // back to scriptFiles for backward compat.
     int firedCount = 0;
     QList<SkinXml::ScriptRef> refs = doc.scripts;
@@ -116,11 +116,11 @@ int SkinRuntime::loadScripts(const SkinXml::Document &doc,
         const QByteArray blob = f.readAll();
 
         // Pre-allocate a SystemObject for this script (any
-        // WidgetScriptObject suffices — the leaked addScript only
+        // WidgetScriptObject suffices, the leaked addScript only
         // needs vcpu_addAssignedVariable + getScriptObject to bind
-        // it as var[0]).  We register it under the script id we'll
-        // get back from addScript — but addScript returns the id, so
-        // we need to register AFTER.  Workaround: we use the leaked
+        // it as var[0]). We register it under the script id we'll
+        // get back from addScript, but addScript returns the id, so
+        // we need to register AFTER. Workaround: we use the leaked
         // VCPU::numScripts to predict the next id.
         void *sysObj = Maki::createWidgetScriptObject(nullptr);
         const int predictedId = Maki::scriptCount();    // next id
@@ -143,8 +143,8 @@ int SkinRuntime::loadScripts(const SkinXml::Document &doc,
         m_d->systemObjects.append(sysObj);
 
         // Register the per-script `param=` string with the bindings
-        // layer.  Backed by an std::wstring we own for the runtime's
-        // lifetime — the wchar_t* stays valid until destroyAll().
+        // layer. Backed by an std::wstring we own for the runtime's
+        // lifetime, the wchar_t* stays valid until destroyAll().
         m_d->scriptParams.push_back(ref.param.toStdWString());
         Maki::registerScriptParam(sid, m_d->scriptParams.back().c_str());
     }
@@ -166,7 +166,7 @@ int SkinRuntime::dispatchOnScriptLoaded() {
 
 namespace {
 // Attributes that are part of the standard widget surface (geometry,
-// id, visibility, etc.) — NOT XUI params delivered as events.
+// id, visibility, etc.), NOT XUI params delivered as events.
 bool isStandardAttr(const QString &k) {
     static const QSet<QString> kStandard = {
         QStringLiteral("id"), QStringLiteral("instanceid"),
@@ -215,7 +215,7 @@ bool isStandardAttr(const QString &k) {
 void collectXuiParams(const Layout::ResolvedWidget &w,
                       QList<QPair<QString, QString>> &out) {
     // Frame instantiations are recognised by xuitag-aliased tags
-    // (wasabi_*frame_*).  Every non-standard attr on them is an
+    // (wasabi_*frame_*). Every non-standard attr on them is an
     // XUI param that the embedded group's script should receive.
     if (w.tag.startsWith(QStringLiteral("wasabi_")) &&
         w.tag.contains(QStringLiteral("frame"))) {

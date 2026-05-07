@@ -1,5 +1,5 @@
-// Stub overlay for upstream <api/script/scriptobj.h>.  Upstream pulls
-// the full Wasabi/Dispatchable hierarchy and tons of widget headers;
+// Stub overlay for upstream <api/script/scriptobj.h>. Upstream pulls
+// the full Wasabi/Dispatchable hierarchy and tons of widget headers,
 // we provide only the abstract surface vcpu.cpp uses to dispatch
 // methods on script-visible objects.
 #ifndef __SCRIPTOBJ_H_WASABIQT_STUB
@@ -12,7 +12,7 @@ class ScriptObject {
 public:
     virtual ~ScriptObject() = default;
 
-    // Real upstream signatures — vcpu.cpp dispatches against these.
+    // Real upstream signatures, vcpu.cpp dispatches against these.
     virtual void *vcpu_getInterfaceObject(GUID g, ScriptObject **o);
     virtual int   vcpu_getAssignedVariable(int start, int scriptid,
                                            int functionId, int *next,

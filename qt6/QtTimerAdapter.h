@@ -3,7 +3,7 @@
 #pragma once
 
 //
-// QtTimerAdapter — wraps QTimer to satisfy the Wasabi Timer object
+// QtTimerAdapter, wraps QTimer to satisfy the Wasabi Timer object
 // surface that Maki scripts use (setDelay, start, stop, onTimer).
 //
 

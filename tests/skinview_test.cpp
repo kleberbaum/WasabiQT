@@ -1,4 +1,4 @@
-// M8 — SkinView QWidget smoke test.  Loads Modern's main/normal,
+// M8, SkinView QWidget smoke test. Loads Modern's main/normal,
 // captures the widget's render via QWidget::grab(), and verifies
 // the result matches the same layout painted offscreen via
 // TreePainter (same paint code path, different entry point).
@@ -32,7 +32,7 @@ private slots:
         SkinXml::Document doc;
         QVERIFY(SkinXml::parse(p, doc));
 
-        // SkinView path — what wq_view uses.
+        // SkinView path, what wq_view uses.
         SkinView view;
         QString err;
         QVERIFY2(view.load(doc, QStringLiteral("main"),
@@ -43,7 +43,7 @@ private slots:
         QPixmap viaWidget = view.grab();
         QCOMPARE(viaWidget.size(), QSize(354, 280));
 
-        // Reference path — TreePainter on the same tree.
+        // Reference path, TreePainter on the same tree.
         Layout::ResolvedWidget tree;
         QVERIFY(Layout::expandLayout(doc, QStringLiteral("main"),
                                      QStringLiteral("normal"), tree));
@@ -61,7 +61,7 @@ private slots:
         // The two should produce the same opaque-pixel coverage.
         // We don't pixel-compare directly because QWidget::grab adds
         // a default white background while our TreePainter is on a
-        // transparent canvas — but the SHAPE of what's painted should
+        // transparent canvas, but the SHAPE of what's painted should
         // match.
         auto opaqueCount = [](const QImage &img) {
             int n = 0;
@@ -73,7 +73,7 @@ private slots:
         const int treeCount = opaqueCount(
             viaTree.convertToFormat(QImage::Format_ARGB32));
         QVERIFY2(treeCount > 1000,
-                 "TreePainter produced almost no pixels — regression?");
+                 "TreePainter produced almost no pixels, regression?");
     }
 };
 

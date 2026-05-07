@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# WasabiQT installer — `curl https://wasabiqt.snek.at | sh`-style.
+# WasabiQT installer, `curl https://wasabiqt.snek.at | sh`-style.
 #
 # Detects host OS, installs Qt6 + build tools via the native package
 # manager, clones WasabiQT, fetches the Wasabi source from
@@ -37,12 +37,12 @@ if [[ "$(uname)" == "Darwin" ]]; then
     PLATFORM="macos"
 elif [[ -f /etc/os-release ]]; then
     . /etc/os-release
-    case "${ID,,}" in
+    case "${ID,}" in
         fedora|rhel|centos|rocky|almalinux) PLATFORM="fedora" ;;
         debian|ubuntu|linuxmint|pop)        PLATFORM="debian" ;;
         arch|manjaro|endeavouros)           PLATFORM="arch"   ;;
         opensuse*|sles)                     PLATFORM="suse"   ;;
-        *) PLATFORM="unknown" ;;
+        *) PLATFORM="unknown" ,
     esac
 else
     PLATFORM="unknown"

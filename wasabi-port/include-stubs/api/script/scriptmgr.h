@@ -1,4 +1,4 @@
-// Stub for upstream <api/script/scriptmgr.h>.  Declares SOM (and the
+// Stub for upstream <api/script/scriptmgr.h>. Declares SOM (and the
 // per-script-object helpers) without dragging in the entire skin
 // engine via systemobj/wacobj.
 #ifndef _SCRIPT_H_WASABIQT_STUB
@@ -10,26 +10,26 @@
 
 #define SOM ScriptObjectManager
 
-// SCRIPT_MAXARGS is normally pulled via objcontroller.h; vcpu.h's
+// SCRIPT_MAXARGS is normally pulled via objcontroller.h, vcpu.h's
 // `paramList[SCRIPT_MAXARGS]` references it directly.
 #ifndef SCRIPT_MAXARGS
-#  define SCRIPT_MAXARGS 10
+# define SCRIPT_MAXARGS 10
 #endif
 
-// MAKI_CMD_* — used by vcpu.cpp for the script-controller bridge.
+// MAKI_CMD_*, used by vcpu.cpp for the script-controller bridge.
 // Real upstream pulls these via objcontroller.h.
-#define MAKI_CMD_NONE     0
-#define MAKI_CMD_SETDLF   1
-#define MAKI_CMD_GETDLF   2
-#define MAKI_CMD_ADDREF   3
-#define MAKI_CMD_REMREF   4
+#define MAKI_CMD_NONE 0
+#define MAKI_CMD_SETDLF 1
+#define MAKI_CMD_GETDLF 2
+#define MAKI_CMD_ADDREF 3
+#define MAKI_CMD_REMREF 4
 #define MAKI_CMD_RESETDLF 5
 
 // scriptVar factory used inside vcpu.cpp's debug paths.
 scriptVar MAKE_SCRIPT_INT(int i);
 
-// Forward — getSystemObjectByScriptId returns a SystemObject*, which
-// has methods vcpu.cpp calls.  Pull the (also-stubbed) systemobj
+// Forward, getSystemObjectByScriptId returns a SystemObject*, which
+// has methods vcpu.cpp calls. Pull the (also-stubbed) systemobj
 // header for that.
 #include <api/script/objects/systemobj.h>
 

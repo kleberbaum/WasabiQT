@@ -1,4 +1,4 @@
-// M4 — first widget paints through Qt.
+// M4, first widget paints through Qt.
 //
 // Load Winamp Modern's skin XML, build the BitmapRegistry, fetch a
 // known sub-rect bitmap, paint it as a <layer> onto a QImage, and
@@ -101,12 +101,12 @@ private slots:
                      QStringLiteral("wasabi.frame.top.left"));
         layer.insert(QStringLiteral("x"), QStringLiteral("5"));
         layer.insert(QStringLiteral("y"), QStringLiteral("5"));
-        // No w/h — should default to bitmap natural size (10x18).
+        // No w/h, should default to bitmap natural size (10x18).
 
         QImage out = paintSingleLayer(reg, layer, QSize(100, 100));
         QCOMPARE(out.size(), QSize(100, 100));
 
-        // The bitmap was drawn at (5,5) with size (10, 18).  Verify
+        // The bitmap was drawn at (5,5) with size (10, 18). Verify
         // a pixel inside that range is non-transparent and a pixel
         // outside is transparent.
         QVERIFY(qAlpha(out.pixel(8, 8)) > 0 ||

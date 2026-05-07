@@ -19,7 +19,7 @@ void collectBitmaps(const SkinXml::Element &el,
         d.id   = el.attrs.value(QStringLiteral("id"));
         d.file = el.attrs.value(QStringLiteral("file"));
         d.gammagroup = el.attrs.value(QStringLiteral("gammagroup"));
-        // x/y/w/h all default to 0; (0,0,0,0) signals "use full image".
+        // x/y/w/h all default to 0, (0,0,0,0) signals "use full image".
         bool ok = false;
         const int x = el.attrs.value(QStringLiteral("x")).toInt(&ok);
         const int y = el.attrs.value(QStringLiteral("y")).toInt();
@@ -73,8 +73,8 @@ QImage BitmapRegistry::imageFor(const QString &id) {
 
 QImage BitmapRegistry::imageFor(const BitmapDef &def) {
     // Resolve the file (case-fixup: skins on Windows are lax about
-    // case, but the Linux filesystem isn't).  Look for the file as
-    // declared first; if missing, do a case-insensitive search next
+    // case, but the Linux filesystem isn't). Look for the file as
+    // declared first, if missing, do a case-insensitive search next
     // to it.
     QString resolved = QDir(m_skinDir).filePath(def.file);
 

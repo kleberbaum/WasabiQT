@@ -43,7 +43,7 @@ void QtCanvasAdapter::stretchBlit(int sx, int sy, int sw, int sh,
 void QtCanvasAdapter::fillRect(int x, int y, int w, int h, COLORREF c)
 {
     if (auto *p = painter()) {
-        // Win32 COLORREF is 0x00BBGGRR; QColor expects RGB.
+        // Win32 COLORREF is 0x00BBGGRR, QColor expects RGB.
         QColor qc(int(c & 0xFF),
                   int((c >> 8) & 0xFF),
                   int((c >> 16) & 0xFF));
@@ -54,7 +54,7 @@ void QtCanvasAdapter::fillRect(int x, int y, int w, int h, COLORREF c)
 void QtCanvasAdapter::textOut(int x, int y, const QString &text)
 {
     if (auto *p = painter()) {
-        // Wasabi positions text by baseline-style coords; Qt's
+        // Wasabi positions text by baseline-style coords, Qt's
         // drawText(x,y,...) takes baseline.
         p->drawText(x, y + p->fontMetrics().ascent(), text);
     }

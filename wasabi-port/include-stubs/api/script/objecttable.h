@@ -1,6 +1,6 @@
-// Stub overlay for upstream <api/script/objecttable.h>.  Upstream
-// pulls every widget header to register them by GUID.  We declare
-// only the static method surface vcpu.cpp calls; the WasabiQT layer
+// Stub overlay for upstream <api/script/objecttable.h>. Upstream
+// pulls every widget header to register them by GUID. We declare
+// only the static method surface vcpu.cpp calls, the WasabiQT layer
 // implements them and registers WasabiQt's own widget classes.
 #pragma once
 #define _OBJECTTABLE_H 1

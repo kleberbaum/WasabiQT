@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 #
-# build.sh — one-command build for WasabiQT.
+# build.sh, one-command build for WasabiQT.
 #
 # Fetches the Wasabi source from archive.org if not already present
 # (./scripts/fetch-wasabi.sh), configures CMake against it, builds,
 # and optionally builds an RPM (Fedora) or .app bundle (macOS).
 #
 # Usage:
-#     ./build.sh                   # configure + build, no install
-#     ./build.sh install           # configure + build + sudo install
-#     ./build.sh rpm               # build an RPM into ./packaging/rpm/RPMS
-#     ./build.sh dmg               # build a macOS .dmg into ./packaging/macos
-#     ./build.sh clean             # rm -rf build/ wasabi-src/
+# ./build.sh # configure + build, no install
+# ./build.sh install # configure + build + sudo install
+# ./build.sh rpm # build an RPM into ./packaging/rpm/RPMS
+# ./build.sh dmg # build a macOS .dmg into ./packaging/macos
+# ./build.sh clean # rm -rf build/ wasabi-src/
 #
 
 set -euo pipefail
@@ -31,7 +31,7 @@ esac
 
 # ── source ─────────────────────────────────────────────────────
 if [[ ! -d "wasabi-src/Src/Wasabi" && -z "${WASABI_SRC_DIR:-}" ]]; then
-    echo "build.sh: no Wasabi source detected — running fetch-wasabi.sh"
+    echo "build.sh: no Wasabi source detected, running fetch-wasabi.sh"
     ./scripts/fetch-wasabi.sh
 fi
 

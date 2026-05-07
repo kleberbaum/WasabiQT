@@ -1,4 +1,4 @@
-// Stub for upstream <api/script/objects/systemobj.h>.  Provides only
+// Stub for upstream <api/script/objects/systemobj.h>. Provides only
 // the SystemObject static + instance method surface vcpu.cpp uses.
 #pragma once
 #define _SYSTEMOBJ_H 1

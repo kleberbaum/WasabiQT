@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# tests/visual/compare_visual.sh — render every case described in
+# tests/visual/compare_visual.sh, render every case described in
 # `cases.txt`, write the PNG to `actual/`, and pixel-diff against
-# `expected/`.  Exit nonzero on any mismatch.
+# `expected/`. Exit nonzero on any mismatch.
 #
-#   compare_visual.sh <render_layout-binary> <visual-test-dir>
+# compare_visual.sh <render_layout-binary> <visual-test-dir>
 #
 # Each line of cases.txt is:
 #
-#   NAME  THEME  CONTAINER  LAYOUT  W  H  EXTRA-ARGS...
+# NAME THEME CONTAINER LAYOUT W H EXTRA-ARGS...
 #
 # `EXTRA-ARGS` are forwarded to `render_layout` verbatim (e.g.
-# `--display time=00:42`).  Use `#` for comments, blank lines OK.
+# `--display time=00:42`). Use `#` for comments, blank lines OK.
 #
 # Set `WASABIQT_REGEN_GOLDENS=1` to write fresh expected/*.png from
 # the current renders (use after a deliberate rendering change).
 #
-# Skin path defaults to ~/.winamp/skins/Winamp Modern; override via
+# Skin path defaults to ~/.winamp/skins/Winamp Modern, override via
 # `WASABIQT_TEST_SKIN`.
 
 set -u
@@ -43,7 +43,7 @@ while IFS= read -r line; do
         ''|'#'*) continue ;;
     esac
 
-    # Split on '|' — supports spaces in theme names.  Trim whitespace
+    # Split on '|', supports spaces in theme names. Trim whitespace
     # via a sed substitution rather than xargs (which mangles the
     # single quote in "Good Ol' Winamp").
     trim() { sed -E 's/^[[:space:]]+//;s/[[:space:]]+$//' <<<"$1"; }
@@ -63,7 +63,7 @@ while IFS= read -r line; do
     if ! "$RENDER" "$SKIN" "$actual" \
             --theme "$theme" \
             --container "$container" \
-            --layout    "$layout_id" \
+            --layout "$layout_id" \
             --w "$w" --h "$h" \
             $extra >/dev/null; then
         echo "FAIL: render $name failed"
@@ -92,10 +92,10 @@ print(f'{100.0 * mismatches / (a.shape[0] * a.shape[1]):.3f}')
 
     threshold="0.500"
     if python3 -c "import sys; sys.exit(0 if float('$diff_pct') > float('$threshold') else 1)"; then
-        echo "FAIL: $name — $diff_pct% pixels differ (>${threshold}%)"
+        echo "FAIL: $name, $diff_pct% pixels differ (>${threshold}%)"
         failed=$((failed+1))
     else
-        echo "PASS: $name — $diff_pct% pixels differ"
+        echo "PASS: $name, $diff_pct% pixels differ"
     fi
 done < "$cases"
 

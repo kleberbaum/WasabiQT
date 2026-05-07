@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 //
-// maki-bridge.cpp — sole TU that #include's the leaked VCPU header.
+// maki-bridge.cpp, sole TU that #include's the leaked VCPU header.
 //
 // vcpu.h drags bfc/platform/linux.h's macro pollution (None, min,
-// max, Cursor, Font, RGB, ...) into whatever TU includes it.  This
-// file forwards the calls and limits the blast radius — the public
+// max, Cursor, Font, RGB, ...) into whatever TU includes it. This
+// file forwards the calls and limits the blast radius, the public
 // maki-bridge.h is a clean Qt-compatible surface.
 
 #include <api/script/vcpu.h>
@@ -53,7 +53,7 @@ int fireEventByName(int scriptId, const wchar_t *functionName) {
             v.data.odata = so->getScriptObject();
             // Track which script is dispatching so getParam() returns
             // the right per-script param= string.
-            const int prev = scriptId;        // simple — we don't nest
+            const int prev = scriptId;        // simple, we don't nest
             setCurrentScriptId(scriptId);
             VCPU::executeEvent(v, e->DLFid, 0, scriptId);
             (void)prev;

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# build-dmg.sh — build a WasabiQT .app bundle and .dmg on macOS.
+# build-dmg.sh, build a WasabiQT .app bundle and .dmg on macOS.
 #
-# Targets Apple Silicon natively (M-series).  Universal binary
+# Targets Apple Silicon natively (M-series). Universal binary
 # (arm64+x86_64) optional via WASABIQT_UNIVERSAL=1.
 #
 
@@ -18,9 +18,9 @@ cd "${REPO_ROOT}"
 # Tooling
 command -v cmake >/dev/null || { echo "Install cmake: brew install cmake"; exit 1; }
 command -v create-dmg >/dev/null || \
-    echo "build-dmg: tip — 'brew install create-dmg' for prettier .dmg layout"
+    echo "build-dmg: tip, 'brew install create-dmg' for prettier .dmg layout"
 
-# Default to native arch; opt into universal via env.
+# Default to native arch, opt into universal via env.
 ARCHS="$(uname -m)"
 [[ "${WASABIQT_UNIVERSAL:-0}" == "1" ]] && ARCHS="arm64;x86_64"
 

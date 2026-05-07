@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# build-rpm.sh — build a WasabiQT RPM on Fedora / RHEL / openSUSE.
+# build-rpm.sh, build a WasabiQT RPM on Fedora / RHEL / openSUSE.
 #
 # Produces ./packaging/rpm/RPMS/<arch>/wasabiqt-<ver>-<rel>.rpm
 # and a -devel sub-package alongside.

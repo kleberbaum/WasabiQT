@@ -47,7 +47,7 @@ bool paintText(QPainter *p,
     const auto *fontDef = fontReg.find(fontId);
     const bool isBitmap = (fontDef != nullptr);
     if (!isBitmap) {
-        // TrueType fall-through — handled at the end of this function.
+        // TrueType fall-through, handled at the end of this function.
     }
 
     // Resolve x/y/w/h with relat* against the container.
@@ -98,14 +98,14 @@ bool paintText(QPainter *p,
     }
 
     // ── TrueType fallback ──────────────────────────────────────
-    // Wasabi's `font="Arial"` etc. — render via QPainter::drawText.
+    // Wasabi's `font="Arial"` etc., render via QPainter::drawText.
     // Honours fontsize, bold, italic, color (best-effort string→QColor),
     // align, antialias.
     QFont qf(fontId);
     const int fontsize = attrInt(attrs, QStringLiteral("fontsize"), 12);
-    // Wasabi `fontsize` is a Win32 lfHeight (character cell height);
-    // Qt's setPixelSize is the EM bounding box.  The two metrics
-    // differ by roughly 4/7 — see libwasabiq Phase 8.5.  Without
+    // Wasabi `fontsize` is a Win32 lfHeight (character cell height),
+    // Qt's setPixelSize is the EM bounding box. The two metrics
+    // differ by roughly 4/7, see libwasabiq Phase 8.5. Without
     // this conversion, Arial 14 renders ~1.7x too tall.
     const int qpx = qMax(1, (fontsize * 4 + 3) / 7);
     qf.setPixelSize(qpx);
@@ -117,8 +117,8 @@ bool paintText(QPainter *p,
     if (attrBool(attrs, QStringLiteral("antialias")))
         p->setRenderHint(QPainter::TextAntialiasing, true);
 
-    // Color: accepted forms are "r,g,b" or a named id (skipped — would
-    // need a color registry).  Default white so something shows.
+    // Color: accepted forms are "r,g,b" or a named id (skipped, would
+    // need a color registry). Default white so something shows.
     const QString colorStr = attrs.value(QStringLiteral("color"));
     QColor color(Qt::white);
     if (colorStr.contains(QChar(','))) {

@@ -1,25 +1,25 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Florian Kleber
 //
-// wasabi-port-stubs.cpp — Linux/Qt implementations of the BFC platform
+// wasabi-port-stubs.cpp, Linux/Qt implementations of the BFC platform
 // hooks that the leaked Wasabi source declares but provides only on
 // Win32 / macOS.
 //
 // What's in here:
-//   - MALLOC / FREE / REALLOC / CALLOC / WMALLOC / MEMCPY / MEMCPY32 /
-//     MEMDUP / MEMFILL32 — Wasabi's malloc-family wrappers, here just
-//     forwarders to the C library.  Wasabi's Win32 build adds optional
-//     debug tracking on top; we don't.
-//   - WCSICMP / WCSNICMP — case-insensitive wide-char compare,
-//     forwarded to POSIX wcscasecmp / wcsncasecmp.
-//   - _assert_handler / _assert_handler_str — BFC's ASSERT() targets.
-//     Linux build prints to stderr and abort()s, matching the macOS
-//     convention.
+// - MALLOC / FREE / REALLOC / CALLOC / WMALLOC / MEMCPY / MEMCPY32 /
+// MEMDUP / MEMFILL32, Wasabi's malloc-family wrappers, here just
+// forwarders to the C library. Wasabi's Win32 build adds optional
+// debug tracking on top, we don't.
+// - WCSICMP / WCSNICMP, case-insensitive wide-char compare,
+// forwarded to POSIX wcscasecmp / wcsncasecmp.
+// - _assert_handler / _assert_handler_str, BFC's ASSERT() targets.
+// Linux build prints to stderr and abort()s, matching the macOS
+// convention.
 //
 // What's NOT in here:
-//   - timing / mouse / X11 hooks from wasabi_std.cpp — the Maki VM
-//     never calls them (verified by grep on vcpu/scriptmgr/objecttable),
-//     so they don't need to link.
+// - timing / mouse / X11 hooks from wasabi_std.cpp, the Maki VM
+// never calls them (verified by grep on vcpu/scriptmgr/objecttable),
+// so they don't need to link.
 
 #include <stdlib.h>
 #include <string.h>
@@ -31,7 +31,7 @@
 #include <strings.h>
 
 // NOTE: BFC declares these in C++ linkage (no `extern "C"`), so the
-// definitions here must match.  The compiler mangles them; the linker
+// definitions here must match. The compiler mangles them, the linker
 // finds them by their C++ name.
 
 // ── memory ───────────────────────────────────────────────────────
@@ -82,8 +82,8 @@ int WCSNICMP(const wchar_t *a, const wchar_t *b, size_t n) {
 
 // ── assertion handlers ───────────────────────────────────────────
 // Set WASABIQT_FATAL_ASSERTS=1 to abort on first ASSERT (default
-// during dev would crash the test runner).  By default we log and
-// continue — script bytecode hits these on the first stub-returning-
+// during dev would crash the test runner). By default we log and
+// continue, script bytecode hits these on the first stub-returning-
 // default we haven't filled in yet, and we want to see how far things
 // got rather than dying immediately.
 static bool fatal_asserts() {
@@ -99,7 +99,7 @@ void _assert_handler(const char *reason, const char *file, int line) {
 
 void _assert_handler_str(const char *str, const char *reason,
                          const char *file, int line) {
-    ::fprintf(stderr, "[wasabiqt-assert] %s — %s   at %s:%d\n",
+    ::fprintf(stderr, "[wasabiqt-assert] %s, %s   at %s:%d\n",
               str    ? str    : "(null)",
               reason ? reason : "(null)", file, line);
     if (fatal_asserts()) ::abort();
@@ -107,7 +107,7 @@ void _assert_handler_str(const char *str, const char *reason,
 
 // ── wasabi_std.cpp helpers used by string/StringW.cpp ────────────
 // Wasabi's bfc/wasabi_std.h declares these as wrappers around C string
-// functions (with optional debug instrumentation on Win32).  We're
+// functions (with optional debug instrumentation on Win32). We're
 // not vendoring wasabi_std.cpp, so provide forwarders.
 
 int    STRLEN(const char *s)                                   { return s ? (int)::strlen(s) : 0; }
@@ -127,14 +127,14 @@ wchar_t *WCSCPYN(wchar_t *d, const wchar_t *s, unsigned long n) { ::wcsncpy(d, s
 int    WCSICMPSAFE(const wchar_t *a, const wchar_t *b, const wchar_t *da, const wchar_t *db)
                                                                { return WCSICMP(a ? a : (da ? da : L""), b ? b : (db ? db : L"")); }
 
-// Directory separator character — '/' on POSIX, '\\' on Win32.
+// Directory separator character, '/' on POSIX, '\\' on Win32.
 namespace Wasabi { namespace Std {
     char dirChar() { return '/'; }
 }}
 
-// MEMFILL<unsigned short> — primary template lives in std_mem.h, this
+// MEMFILL<unsigned short>, primary template lives in std_mem.h, this
 // specialisation is forward-declared there but has no in-tree body on
-// non-Win32 builds.  Implement it here.
+// non-Win32 builds. Implement it here.
 template<class T>
 void MEMFILL(T *ptr, T val, unsigned int n);   // re-declare for ADL
 

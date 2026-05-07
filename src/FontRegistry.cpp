@@ -44,10 +44,10 @@ const BitmapFontDef *FontRegistry::find(const QString &id) const {
 }
 
 // Direct port of upstream Wasabi BitmapFont::getXYfromChar (see
-// `Src/Wasabi/api/font/bitmapfont.cpp`).  Glyphs sit in 3 rows:
-//   row 0 (y=0)              — A..Z (lowercase maps in), space
-//   row 1 (y=charHeight)     — 0-9 ., :, (, ), -, ', etc.
-//   row 2 (y=charHeight*2)   — fallback / extras
+// `Src/Wasabi/api/font/bitmapfont.cpp`). Glyphs sit in 3 rows:
+// row 0 (y=0), A..Z (lowercase maps in), space
+// row 1 (y=charHeight), 0-9 ., :, (, ), -, ', etc.
+// row 2 (y=charHeight*2), fallback / extras
 // `c` is the column index multiplied by charWidth to give x.
 QPoint FontRegistry::glyphCoord(QChar ic, int charWidth, int charHeight) {
     int c = 30;        // default: undefined → space-ish slot

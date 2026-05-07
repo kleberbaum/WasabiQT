@@ -1,8 +1,8 @@
-// Stub for nu/AutoWide.h.  Upstream is Win32-only (uses MultiByteToWideChar).
+// Stub for nu/AutoWide.h. Upstream is Win32-only (uses MultiByteToWideChar).
 // Linux equivalent: convert via mbstowcs.
 //
 // vcpu.cpp uses AutoWide(s) as a temporary that decays to wchar_t* in
-// WCSDUP() — `WCSDUP(AutoWide(functionName))`.  The destructor frees
+// WCSDUP(), `WCSDUP(AutoWide(functionName))`. The destructor frees
 // the buffer, so it must out-live the WCSDUP call (implicit in the
 // expression).
 #ifndef AUTOWIDEH

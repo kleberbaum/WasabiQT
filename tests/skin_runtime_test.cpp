@@ -1,4 +1,4 @@
-// M13a — SkinRuntime loads Maki scripts + builds widget object table.
+// M13a, SkinRuntime loads Maki scripts + builds widget object table.
 
 #include <WasabiQt/SkinXml.h>
 #include <WasabiQt/Layout.h>
@@ -33,8 +33,8 @@ private slots:
             "loaded %1 scripts; widget-objects=%2")
             .arg(n).arg(runtime.widgetObjectCount());
 
-        // Modern declares ~39 scripts in skin.xml.  Some may fail to
-        // load (paths to other skins, etc.) — accept any positive
+        // Modern declares ~39 scripts in skin.xml. Some may fail to
+        // load (paths to other skins, etc.), accept any positive
         // number.
         QVERIFY(n > 0);
         QVERIFY(runtime.widgetObjectCount() > 50);   // many widgets
@@ -46,8 +46,8 @@ private slots:
         QVERIFY2(count > 0, "script 0 has no DLFs");
         const QString names = QString::fromUtf8(buf);
         // Every Modern script that uses System.* has an onScriptLoaded
-        // handler — at least one of them should appear in script 0's
-        // DLF table.  Verifies that addScript actually populated the
+        // handler, at least one of them should appear in script 0's
+        // DLF table. Verifies that addScript actually populated the
         // DLF entries and our fireEventByName lookup is sound.
         QVERIFY2(names.contains(QStringLiteral("onScriptLoaded")),
                  qPrintable(QStringLiteral("missing onScriptLoaded in:\n%1")

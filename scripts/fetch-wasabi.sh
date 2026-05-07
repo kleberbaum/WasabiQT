@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 #
-# fetch-wasabi.sh — download the user-supplied Wasabi source from
+# fetch-wasabi.sh, download the user-supplied Wasabi source from
 # the public archive.org mirror into ./wasabi-src/.
 #
 # This script is part of WasabiQT's BUILD tooling, not its
-# redistribution.  archive.org is the source of truth; this script
-# just automates the user's own download for convenience.  The
+# redistribution. archive.org is the source of truth, this script
+# just automates the user's own download for convenience. The
 # downloaded tree lands in ./wasabi-src/ which is .gitignored and
 # never committed.
 #
 # Mirrors:
-#   - https://archive.org/details/winamp.7z          (community backup)
-#   - https://archive.org/details/winamp-srcarc      (alternate mirror)
+# - https://archive.org/details/winamp.7z (community backup)
+# - https://archive.org/details/winamp-srcarc (alternate mirror)
 #
 # Run from the WasabiQT repo root:
 #
-#     ./scripts/fetch-wasabi.sh
+# ./scripts/fetch-wasabi.sh
 #
 # After this, `cmake -B build` will find ./wasabi-src/Src/Wasabi
 # and configure successfully.
@@ -26,7 +26,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 WASABI_SRC_LOCAL="${REPO_ROOT}/wasabi-src"
 
-# archive.org item identifiers — pick the one that resolves first.
+# archive.org item identifiers, pick the one that resolves first.
 # (The user can override by setting WASABIQT_ARCHIVE_URL.)
 DEFAULT_MIRRORS=(
     "https://archive.org/download/winamp.7z/winamp.7z"
@@ -70,7 +70,7 @@ echo "fetch-wasabi: extracting (7z, may take a minute)"
 rm -f "${ARCHIVE_FILE}"
 
 # Find the Src/ root inside whatever the archive's top-level layout is.
-# Most mirrors extract to ./winamp-src/Src/ directly; some include an
+# Most mirrors extract to ./winamp-src/Src/ directly, some include an
 # extra wrapper directory.
 if [[ ! -d "${WASABI_SRC_LOCAL}/Src/Wasabi" ]]; then
     # search up to 3 levels deep for a Src/Wasabi
@@ -81,7 +81,7 @@ if [[ ! -d "${WASABI_SRC_LOCAL}/Src/Wasabi" ]]; then
         mkdir -p "${WASABI_SRC_LOCAL}/Src"
         mv "${found}"/* "${WASABI_SRC_LOCAL}/Src/"
     else
-        echo "fetch-wasabi: ERROR — cannot locate Src/Wasabi inside archive" >&2
+        echo "fetch-wasabi: ERROR, cannot locate Src/Wasabi inside archive" >&2
         echo "fetch-wasabi: tree dump (top 5):" >&2
         find "${WASABI_SRC_LOCAL}" -maxdepth 3 -type d | head -5 >&2
         exit 2
@@ -98,7 +98,7 @@ required=(
 )
 for d in "${required[@]}"; do
     if [[ ! -d "${WASABI_SRC_LOCAL}/${d}" ]]; then
-        echo "fetch-wasabi: ERROR — missing required subdir ${d}" >&2
+        echo "fetch-wasabi: ERROR, missing required subdir ${d}" >&2
         exit 3
     fi
 done

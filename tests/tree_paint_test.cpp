@@ -1,8 +1,8 @@
-// M7 — paint a resolved widget tree onto a QImage.
+// M7, paint a resolved widget tree onto a QImage.
 //
 // Loads Modern's main/normal layout, expands it, paints it at the
 // layout's declared minimum size onto a transparent canvas, and
-// verifies a sizeable fraction of the canvas got drawn on.  Saves
+// verifies a sizeable fraction of the canvas got drawn on. Saves
 // the artefact to /tmp for visual inspection.
 
 #include <WasabiQt/SkinXml.h>

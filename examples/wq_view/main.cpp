@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Florian Kleber
 //
-// wq_view — minimal skin viewer.  Opens a Wasabi/Modern skin's
+// wq_view, minimal skin viewer. Opens a Wasabi/Modern skin's
 // container/layout in a frameless QWidget so you can see what
 // WasabiQT actually renders for a real skin.
 //
 // Usage:
 //
-//   wq_view <skin.xml> [container] [layout]
+// wq_view <skin.xml> [container] [layout]
 //
-//   container defaults to "main", layout to "normal".
+// container defaults to "main", layout to "normal".
 //
-// Drag from the title strip to move; close on Escape.
+// Drag from the title strip to move, close on Escape.
 
 #include <WasabiQt/SkinView.h>
 #include <WasabiQt/SkinXml.h>
@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
 
     QCommandLineParser cli;
     cli.setApplicationDescription(QStringLiteral(
-        "WasabiQT skin viewer — opens a container's layout"));
+        "WasabiQT skin viewer, opens a container's layout"));
     cli.addHelpOption();
     cli.addPositionalArgument(QStringLiteral("skin.xml"),
                               QStringLiteral("path to the skin's skin.xml"));
@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
         qCritical("Layout load failed: %s", qPrintable(err));
         return 1;
     }
-    w.setWindowTitle(QStringLiteral("WasabiQT — %1 / %2 / %3")
+    w.setWindowTitle(QStringLiteral("WasabiQT, %1 / %2 / %3")
                          .arg(doc.skinName.isEmpty()
                                   ? QStringLiteral("(unnamed)")
                                   : doc.skinName,

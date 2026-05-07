@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# tests/visual/sbs_titlebar.sh — render the current Modern main/normal
+# tests/visual/sbs_titlebar.sh, render the current Modern main/normal
 # layout, crop just the titlebar strip, and stack it below the
 # reference WACUP titlebar from /tmp/sbs_13.png so we can eye-check
 # spacing/streak/center positioning.
@@ -38,7 +38,7 @@ ours = Image.open('/tmp/sbs_strip.png').convert('RGBA')
 ref_path = '$REF'
 if not os.path.exists(ref_path):
     ours.save('/tmp/sbs_titlebar.png')
-    print('no reference at', ref_path, '— saved ours-only')
+    print('no reference at', ref_path, ', saved ours-only')
     sys.exit()
 ref = Image.open(ref_path).convert('RGBA')
 # Resize ref to match our width (preserve aspect)

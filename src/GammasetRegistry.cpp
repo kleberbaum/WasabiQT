@@ -76,7 +76,7 @@ void GammasetRegistry::applyToImage(QImage &img, const GammaGroup &t) {
         img.format() != QImage::Format_ARGB32_Premultiplied)
         img = img.convertToFormat(QImage::Format_ARGB32);
 
-    // Pre-compute multipliers for the linear-RGB transform.  Mirrors
+    // Pre-compute multipliers for the linear-RGB transform. Mirrors
     // upstream Winamp's GammaFilter::filterBitmap.
     const int rm = 65535 + (t.r << 4);
     const int gm = 65535 + (t.g << 4);
@@ -111,7 +111,7 @@ void GammasetRegistry::applyToImage(QImage &img, const GammaGroup &t) {
                 B = std::min(255, (B >> 1) + add);
             }
 
-            // Linear per-channel transform — channel_out = R * rm / 65535.
+            // Linear per-channel transform, channel_out = R * rm / 65535.
             R = (R * rm) >> 16;
             G = (G * gm) >> 16;
             B = (B * bm) >> 16;

@@ -3,7 +3,7 @@
 
 #include "Win32Shim.h"
 
-// Translation unit anchor.  Win32Shim.h is header-only typedefs;
+// Translation unit anchor. Win32Shim.h is header-only typedefs,
 // keeping a .cpp here ensures the static library has at least one
 // non-header symbol on platforms where empty archives confuse the
 // linker (older macOS toolchains).

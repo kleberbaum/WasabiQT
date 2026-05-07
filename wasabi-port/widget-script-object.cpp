@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Florian Kleber
 //
-// widget-script-object.cpp — bridge between the leaked ScriptObject
-// vtable and a Qt-side ResolvedWidget*.  Sole TU that includes
-// <api/script/scriptobj.h>; downstream code holds opaque
+// widget-script-object.cpp, bridge between the leaked ScriptObject
+// vtable and a Qt-side ResolvedWidget*. Sole TU that includes
+// <api/script/scriptobj.h>, downstream code holds opaque
 // WidgetScriptObject* handles via maki-bridge.h.
 //
 // The leaked Maki VM dispatches every script-callable method
 // (`setVisible`, `setXmlParam`, `getAutoWidth`, `findObject`, …) by
-// looking up (classGuid, funcName) in ObjectTable.  Each instance
+// looking up (classGuid, funcName) in ObjectTable. Each instance
 // also implements virtual methods (`vcpu_setScriptId`,
 // `vcpu_addAssignedVariable`, …) that the VM calls during
-// load/dispatch.  WidgetScriptObject overrides those so the VM can
+// load/dispatch. WidgetScriptObject overrides those so the VM can
 // actually run scripts against our resolved widget tree without
 // crashing.
 
@@ -19,13 +19,13 @@
 #include <api/script/vcpu.h>
 #include "maki-bridge.h"
 
-// linux.h's min/max macros stomp on STL.  Pop them before pulling
+// linux.h's min/max macros stomp on STL. Pop them before pulling
 // any standard-library header.
 #ifdef min
-#  undef min
+# undef min
 #endif
 #ifdef max
-#  undef max
+# undef max
 #endif
 
 #include <unordered_map>
@@ -54,11 +54,11 @@ public:
     int   vcpu_getAssignedVariable(int start, int scriptid, int functionId,
                                    int *next, int *globalevententry,
                                    int * /*inheritedevent*/) override {
-        // `start` is a global event-index hint — executeEvent calls us
-        // in a loop, each iteration advancing through events.  Iterate
-        // VCPU::eventsTable from `start`; for each entry, check if its
+        // `start` is a global event-index hint, executeEvent calls us
+        // in a loop, each iteration advancing through events. Iterate
+        // VCPU::eventsTable from `start`, for each entry, check if its
         // (varId, scriptId) matches one of our m_assigned pairs AND
-        // its DLFid matches functionId.  Returns the event's varId
+        // its DLFid matches functionId. Returns the event's varId
         // and sets *next to the index PAST the matched event so the
         // next loop iteration finds the next handler.
         //

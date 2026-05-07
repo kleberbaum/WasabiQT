@@ -3,12 +3,12 @@
 #pragma once
 
 //
-// WasabiQT::Host — embedder-implemented bridge between WasabiQT and
+// WasabiQT::Host, embedder-implemented bridge between WasabiQT and
 // the host application's playback engine, playlist, EQ, and config
-// store.  WasabiQT renders the skin and runs Maki scripts; everything
+// store. WasabiQT renders the skin and runs Maki scripts, everything
 // else (decode, mix, library, settings) belongs to the host.
 //
-// Audacious, WACUP, a custom Qt media player — each implements this
+// Audacious, WACUP, a custom Qt media player, each implements this
 // virtual interface, hands it to WasabiQt::Skin, and gets a fully
 // rendered, scripted Modern-skin window in return.
 //
@@ -85,7 +85,7 @@ public:
 
     // ── Live data bindings ────────────────────────────────────
     // Modern skins use <text display="…"/> to bind dynamic values
-    // (time, songtitle, kbps, khz).  Returns the value to display
+    // (time, songtitle, kbps, khz). Returns the value to display
     // for `id`, or a null QString if unbound.
     virtual QString dataBinding(const QString &id) const { Q_UNUSED(id); return {}; }
 
@@ -93,8 +93,8 @@ public:
     // Maki scripts compare against this in init.
     virtual QString skinName() const { return {}; }
 
-    // Whether the host's main window has focus.  Used for the
-    // active/inactive titlebar crossfade.  Hosts typically wire
+    // Whether the host's main window has focus. Used for the
+    // active/inactive titlebar crossfade. Hosts typically wire
     // this to QWidget::isActiveWindow() or
     // QGuiApplication::applicationState() == Qt::ApplicationActive.
     virtual bool isWindowActive() const { return true; }

@@ -36,9 +36,9 @@ bool attrBool(const QHash<QString, QString> &a, const QString &key) {
                                                   Qt::CaseInsensitive) == 0;
 }
 
-// Resolve a widget's pixel rect against its parent's size.  Mirrors
-// LayerPainter's logic — relatx/relaty against parent edge, relatw/h
-// against parent dimension.  When w/h is unset (==0), defer to the
+// Resolve a widget's pixel rect against its parent's size. Mirrors
+// LayerPainter's logic, relatx/relaty against parent edge, relatw/h
+// against parent dimension. When w/h is unset (==0), defer to the
 // caller (zero indicates "natural / full" depending on widget kind).
 QRect resolveRect(const QHash<QString, QString> &a, const QSize &parent) {
     int x = attrInt(a, QStringLiteral("x"));
@@ -53,7 +53,7 @@ QRect resolveRect(const QHash<QString, QString> &a, const QSize &parent) {
 }
 
 // Pull the painted-state bitmap id for buttons/togglebuttons.
-// For M7 we only render the normal-state image; downImage/hoverImage
+// For M7 we only render the normal-state image, downImage/hoverImage
 // are input-time decisions the embedder makes later.
 QString staticImageId(const QHash<QString, QString> &a) {
     return a.value(QStringLiteral("image"));
@@ -85,7 +85,7 @@ void paintRecursive(QPainter *p, const ResolvedWidget &node,
     }
 
     if (t == QStringLiteral("text") || t == QStringLiteral("songticker")) {
-        // <songticker> paints like <text> with no scrolling; the
+        // <songticker> paints like <text> with no scrolling, the
         // displayed string comes through the resolver as
         // "songtitle" / "songinfo" or whatever the embedder wires up.
         QHash<QString, QString> a = node.attrs;
@@ -144,7 +144,7 @@ void paintRecursive(QPainter *p, const ResolvedWidget &node,
         return;
     }
 
-    // <slider>, <vis>, <albumart>, ... — painted in later milestones.
+    // <slider>, <vis>, <albumart>, ..., painted in later milestones.
     for (const auto &child : node.children)
         paintRecursive(p, child, ctx, canvas);
 }

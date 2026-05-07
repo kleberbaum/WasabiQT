@@ -1,14 +1,14 @@
 #pragma once
 //
-// SkinView — a QWidget that paints a WasabiQt resolved layout.
+// SkinView, a QWidget that paints a WasabiQt resolved layout.
 //
 // Embedders create one of these per <container>/<layout> they want
 // on screen, hand it the parsed Document and the ids, and the widget
-// owns the BitmapRegistry + ResolvedWidget tree from there on.  The
-// `paint()` is just a TreePainter call on its tree; the size hint
+// owns the BitmapRegistry + ResolvedWidget tree from there on. The
+// `paint()` is just a TreePainter call on its tree, the size hint
 // comes from the layout's `w`/`h` (or `minimum_w`/`minimum_h`).
 //
-// Input handling is a stub for now — clicks/drags are reported via
+// Input handling is a stub for now, clicks/drags are reported via
 // signals but the widget doesn't dispatch them to script bindings
 // (that's M9+'s job).
 //
@@ -33,7 +33,7 @@ public:
     ~SkinView() override;
 
     // Adopt a parsed skin document, expand the named layout, and
-    // populate the bitmap registry from it.  Returns false (and sets
+    // populate the bitmap registry from it. Returns false (and sets
     // errMsg) if the container or layout isn't found.
     bool load(const SkinXml::Document &doc,
               const QString &containerId,
@@ -50,12 +50,12 @@ public:
     FontRegistry                 &fonts()      { return m_fonts; }
     GammasetRegistry             &gammasets()  { return m_gammasets; }
 
-    // Switch to a named gammaset (Color Theme).  Empty/unknown name
-    // means "Default" (identity transform).  Triggers a repaint.
+    // Switch to a named gammaset (Color Theme). Empty/unknown name
+    // means "Default" (identity transform). Triggers a repaint.
     void setActiveGammaset(const QString &name);
 
     // Embedder hook: resolve a <text display="…"/> key to a live
-    // string at paint time.  Returning an empty string falls back
+    // string at paint time. Returning an empty string falls back
     // to the widget's `default=` attribute.
     using DisplayResolver = std::function<QString(const QString &)>;
     void setDisplayResolver(DisplayResolver r) {

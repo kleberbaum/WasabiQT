@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Florian Kleber
 //
-// wasabi-port-link-stubs.cpp — link-time bodies for the upstream
-// classes whose headers we override in include-stubs/.  These exist
-// so the leaked vcpu.cpp links into libwasabiqt; they are NOT a
-// functional implementation of those classes.  WasabiQT-own code
+// wasabi-port-link-stubs.cpp, link-time bodies for the upstream
+// classes whose headers we override in include-stubs/. These exist
+// so the leaked vcpu.cpp links into libwasabiqt, they are NOT a
+// functional implementation of those classes. WasabiQT-own code
 // supplies real bodies for the methods it cares about (later
 // milestones), and may either replace this file's symbols at link
 // time or hide them behind weak attributes.
@@ -21,13 +21,13 @@
 #include <bfc/tlist.h>
 #include <bfc/nsguid.h>
 
-// linux.h's min/max macros stomp on STL templates; undef before
+// linux.h's min/max macros stomp on STL templates, undef before
 // pulling unordered_map.
 #ifdef min
-#  undef min
+# undef min
 #endif
 #ifdef max
-#  undef max
+# undef max
 #endif
 
 #include <cstdarg>
@@ -58,8 +58,8 @@ void ScriptObjectManager::assignPersistent(scriptVar *v1, scriptVar *v2) { if (v
 void ScriptObjectManager::strflatassign(scriptVar *v, const wchar_t *)        { if (v) v->type = SCRIPT_STRING; }
 void ScriptObjectManager::persistentstrassign(scriptVar *v, const wchar_t *)  { if (v) v->type = SCRIPT_STRING; }
 
-// Comparison helpers — needed by `if (string == "literal")` and
-// `if (n < 5)` style guards in real scripts.  A returning-zero
+// Comparison helpers, needed by `if (string == "literal")` and
+// `if (n < 5)` style guards in real scripts. A returning-zero
 // stub means every guard evaluates false, which silently disables
 // every behaviour predicated on a value check (including
 // titlebar.m's `if (param == "padtitleright")`).
@@ -127,9 +127,9 @@ int ScriptObjectManager::isNumericType(int t) {
             t == SCRIPT_DOUBLE || t == SCRIPT_BOOLEAN) ? 1 : 0;
 }
 int  ScriptObjectManager::typeCheck(VCPUscriptVar *, int)        { return 1; }
-// Per-script SystemObject — set up by SkinRuntime via the public
+// Per-script SystemObject, set up by SkinRuntime via the public
 // `Maki::registerSystemObject(scriptId, ScriptObject*)` shim before
-// each addScript().  Upstream's addScript reads this back and binds
+// each addScript(). Upstream's addScript reads this back and binds
 // it as var[0], which is the load-bearing line in the whole "scripts
 // can find handlers" chain (see vcpu.cpp line 452-457).
 namespace {
@@ -195,26 +195,26 @@ void  ScriptObject::vcpu_setScriptId(int) {}
 void  ScriptObject::vcpu_delMembers(int) {}
 int   ScriptObject::vcpu_getMember(const wchar_t *, int, int) { return -1; }
 
-// ── ObjectTable — minimum needed so CALLM doesn't break the stack ──
+// ── ObjectTable, minimum needed so CALLM doesn't break the stack ──
 //
 // The leaked vcpu.cpp's CALLM handler (vcpu.cpp:1644) checks
-// `if (e->ptr != NULL)` before dispatching — so a NULL ptr is safe
+// `if (e->ptr != NULL)` before dispatching, so a NULL ptr is safe
 // IF `e->nparams` is set correctly (otherwise args don't get popped
 // from the operand stack and the next opcode reads misaligned bytes).
 //
 // `addrefDLF` here does the bare minimum: look up a method's nparams
-// in a static table of known Wasabi method signatures.  e->ptr stays
+// in a static table of known Wasabi method signatures. e->ptr stays
 // NULL (so the call is a no-op returning 0/void), but the stack
-// stays aligned — scripts run cleanly past CALLM, just with no real
-// effect on widget state.  M13c/d will plug actual function pointers
+// stays aligned, scripts run cleanly past CALLM, just with no real
+// effect on widget state. M13c/d will plug actual function pointers
 // in for the named methods we care about.
 
 namespace {
 struct MethodSig { const wchar_t *name; int nparams; };
 
 // Conservative table: every method titlebar.maki/std.mi/configtabs.maki
-// can call.  nparams matches what the upstream `getExportedFunctions`
-// declares for each.  Add here as new bindings are needed.
+// can call. nparams matches what the upstream `getExportedFunctions`
+// declares for each. Add here as new bindings are needed.
 static const MethodSig kKnownMethods[] = {
     // SystemObject (https://leaked source: api/script/objects/systemobj.cpp)
     {L"onScriptLoaded",          0},
@@ -244,7 +244,7 @@ static const MethodSig kKnownMethods[] = {
     {L"getPlayItemDisplayTitle", 0},
     {L"onLeftClick",             0},
 
-    // GuiObject / Group / Layer / Layout / Container — most common
+    // GuiObject / Group / Layer / Layout / Container, most common
     {L"findObject",              1},
     {L"getObject",               1},
     {L"setVisible",              1},
@@ -269,7 +269,7 @@ static const MethodSig kKnownMethods[] = {
     {L"bringToFront",            0},
     {L"bringToBack",             0},
 
-    // Text — methods titlebar.maki uses on the centre text
+    // Text, methods titlebar.maki uses on the centre text
     {L"setText",                 1},
     {L"getText",                 0},
     {L"onTextChanged",           1},
@@ -297,7 +297,7 @@ int lookupNparams(const wchar_t *name) {
 
 }  // namespace
 
-// Implemented in maki-bindings.cpp — full method registry with
+// Implemented in maki-bindings.cpp, full method registry with
 // real function bodies for the load-bearing Wasabi methods.
 namespace WasabiQt::Maki {
 struct MakiMethod { const wchar_t *name; int nparams; void *ptr; };
@@ -307,9 +307,9 @@ const MakiMethod *makiMethodTable(int *count);
 int ObjectTable::addrefDLF(VCPUdlfEntry *dlf, int id) {
     if (!dlf) return 0;
     // Upstream: when a method's physical pointer is already
-    // registered, reuse its DLFid; else assign `id` (highestDLFId)
-    // and signal the caller to bump the counter.  We assign a fresh
-    // id every time — `getDLFFromPointer` would let multiple scripts
+    // registered, reuse its DLFid, else assign `id` (highestDLFId)
+    // and signal the caller to bump the counter. We assign a fresh
+    // id every time, `getDLFFromPointer` would let multiple scripts
     // share an existing id, but our table is small enough that the
     // duplication is harmless.
     dlf->DLFid = id;
@@ -324,7 +324,7 @@ int ObjectTable::addrefDLF(VCPUdlfEntry *dlf, int id) {
             }
         }
         // Known by name only → safe no-op via nparams (e->ptr stays
-        // NULL; CALLM short-circuits to int 0 with stack still aligned).
+        // NULL, CALLM short-circuits to int 0 with stack still aligned).
         dlf->nparams = lookupNparams(dlf->functionName);
         dlf->ptr     = nullptr;
     }

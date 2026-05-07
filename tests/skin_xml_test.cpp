@@ -1,8 +1,8 @@
-// M3 — skin XML parser tests.
+// M3, skin XML parser tests.
 //
 // Parse a few real Modern-family skins end-to-end and verify we walk
-// the entire <include> tree.  We don't validate every individual
-// element here — just that the parser doesn't drop pieces and
+// the entire <include> tree. We don't validate every individual
+// element here, just that the parser doesn't drop pieces and
 // extracts the metadata accessible from the top.
 
 #include <WasabiQt/SkinXml.h>

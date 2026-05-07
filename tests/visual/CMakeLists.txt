@@ -1,5 +1,5 @@
-# Visual rendering harness — offscreen PNGs of expanded layouts for
-# pixel-regression diffs.  Builds the `render_layout` binary that is
+# Visual rendering harness, offscreen PNGs of expanded layouts for
+# pixel-regression diffs. Builds the `render_layout` binary that is
 # the workhorse for `compare_visual.sh`.
 
 add_executable(render_layout render_layout.cpp)
@@ -16,10 +16,10 @@ add_test(NAME visual_diff
 set_tests_properties(visual_diff PROPERTIES
     ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
 
-# Side-by-side titlebar comparison — renders the current Modern
+# Side-by-side titlebar comparison, renders the current Modern
 # titlebar strip stacked under /tmp/sbs_13.png (or whatever
-# WASABIQT_REF_TITLEBAR points at) for eye-checking.  Output:
-# /tmp/sbs_titlebar.png.  Run via: ctest -R sbs_titlebar
+# WASABIQT_REF_TITLEBAR points at) for eye-checking. Output:
+# /tmp/sbs_titlebar.png. Run via: ctest -R sbs_titlebar
 add_test(NAME sbs_titlebar
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/sbs_titlebar.sh
             Blues

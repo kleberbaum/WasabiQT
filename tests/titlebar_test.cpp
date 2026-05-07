@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Florian Kleber
 //
-// titlebar_test — first pixel-regression target.
+// titlebar_test, first pixel-regression target.
 //
 // Composes Winamp Modern's titlebar streak (the silver chevron) by
 // hand from its constituent <bitmap> definitions and compares the
 // rendered QImage against a golden reference saved alongside the
-// test.  Failure on any pixel — that's the point of the harness.
+// test. Failure on any pixel, that's the point of the harness.
 //
 // We render JUST the active streak strip (354x9), not the full 18px
-// titlebar with text + overlay + inactive layers.  Full layout
-// rendering with sendparams + Maki-driven activeAlpha lands later;
+// titlebar with text + overlay + inactive layers. Full layout
+// rendering with sendparams + Maki-driven activeAlpha lands later,
 // this test exists so any regression in the BitmapRegistry sub-rect
 // extraction or LayerPainter blit positioning fails immediately.
 //
-// Reference image: tests/golden/titlebar_active_streak.png.  If
-// missing, the first run writes it (and the test passes); subsequent
-// runs compare bit-for-bit.  Set WASABIQT_REGEN_GOLDENS=1 to refresh.
+// Reference image: tests/golden/titlebar_active_streak.png. If
+// missing, the first run writes it (and the test passes), subsequent
+// runs compare bit-for-bit. Set WASABIQT_REGEN_GOLDENS=1 to refresh.
 
 #include <WasabiQt/SkinXml.h>
 #include <WasabiQt/BitmapRegistry.h>
@@ -35,8 +35,8 @@ using namespace WasabiQt::SkinXml;
 namespace {
 
 // Build the active-streak strip at the given width (which the real
-// skin sets dynamically via sendparams).  Layout matches the
-// `wasabi.titlebar.streak` groupdef in titlebar.xml — left bitmap
+// skin sets dynamically via sendparams). Layout matches the
+// `wasabi.titlebar.streak` groupdef in titlebar.xml, left bitmap
 // pinned to x=0, center stretched between, right pinned to the right.
 QImage renderActiveStreak(BitmapRegistry &reg, int totalW) {
     constexpr int H = 9;
@@ -59,11 +59,11 @@ QImage renderActiveStreak(BitmapRegistry &reg, int totalW) {
     };
 
     // From titlebar.xml's `wasabi.titlebar.streak` groupdef:
-    //   <layer image="wasabi.titlebar.left.active"   x="0"  y="1"/>
-    //   <layer image="wasabi.titlebar.center.active" x="10" y="1"
-    //          w="-10" relatw="1"/>
-    //   <layer image="wasabi.titlebar.right.active"  x="-10" relatx="1" y="1"/>
-    // y=1 inside the streak group; we render at y=0 in this strip.
+    // <layer image="wasabi.titlebar.left.active" x="0" y="1"/>
+    // <layer image="wasabi.titlebar.center.active" x="10" y="1"
+    // w="-10" relatw="1"/>
+    // <layer image="wasabi.titlebar.right.active" x="-10" relatx="1" y="1"/>
+    // y=1 inside the streak group, we render at y=0 in this strip.
     bool ok = true;
     ok &= layer(QStringLiteral("wasabi.titlebar.left.active"),
                 0, 0, 0, H, false, false);
@@ -76,8 +76,8 @@ QImage renderActiveStreak(BitmapRegistry &reg, int totalW) {
 }
 
 QString goldenPath() {
-    // Source-tree resolution via QT_TESTCASE_BUILDDIR — points at the
-    // test binary's build dir; we walk back up to the source tree.
+    // Source-tree resolution via QT_TESTCASE_BUILDDIR, points at the
+    // test binary's build dir, we walk back up to the source tree.
     return QStringLiteral(WASABIQT_SOURCE_DIR) +
            QStringLiteral("/tests/golden/titlebar_active_streak.png");
 }
@@ -147,7 +147,7 @@ private slots:
             qPrintable(QStringLiteral("could not load golden %1").arg(gp)));
         QCOMPARE(rendered.size(), golden.size());
 
-        // Bit-exact pixel compare; collect up to 10 mismatches for diagnosis.
+        // Bit-exact pixel compare, collect up to 10 mismatches for diagnosis.
         QList<QPair<int,int>> mismatches;
         const QImage a = rendered.convertToFormat(QImage::Format_ARGB32);
         const QImage b = golden  .convertToFormat(QImage::Format_ARGB32);

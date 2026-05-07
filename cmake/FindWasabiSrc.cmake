@@ -1,16 +1,16 @@
-# FindWasabiSrc.cmake — locate the user-supplied Wasabi source tree.
+# FindWasabiSrc.cmake, locate the user-supplied Wasabi source tree.
 #
 # The Wasabi source (from the 2024 Llama Group release, mirrored on
 # archive.org) is licensed under the Winamp Collaborative License,
 # which forbids redistribution by anyone but Llama Group itself.
-# WasabiQT therefore does not ship any of it.  The user provides
+# WasabiQT therefore does not ship any of it. The user provides
 # their own copy via:
 #
-#   1. -DWASABI_SRC_DIR=/path/to/Src  (preferred; explicit)
-#   2. WASABI_SRC_DIR environment variable
-#   3. ./wasabi-src/Src                (where scripts/fetch-wasabi.sh
-#                                       extracts the archive.org tarball
-#                                       — local development convention)
+# 1. -DWASABI_SRC_DIR=/path/to/Src (preferred, explicit)
+# 2. WASABI_SRC_DIR environment variable
+# 3. ./wasabi-src/Src (where scripts/fetch-wasabi.sh
+# extracts the archive.org tarball
+#, local development convention)
 #
 # After this module runs, ${WASABI_SRC_DIR} points at the directory
 # containing api/, bfc/, Lib/, replicant/ etc.

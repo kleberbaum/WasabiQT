@@ -1,13 +1,13 @@
 #pragma once
 //
-// TextPainter — paint a Wasabi <text> widget using a bitmap font.
+// TextPainter, paint a Wasabi <text> widget using a bitmap font.
 //
 // `<text>` honours: `font`, `fontsize`, `x`, `y`, `w`, `h`,
-//                    `align` (left/center/right), `display`,
-//                    `default`, `forceuppercase`, `xoffset`, `yoffset`.
+// `align` (left/center/right), `display`,
+// `default`, `forceuppercase`, `xoffset`, `yoffset`.
 //
 // `display=` names a runtime-bound value the host supplies (time,
-// Bitrate, Frequency, song title, etc.).  When the host hasn't
+// Bitrate, Frequency, song title, etc.). When the host hasn't
 // set a value, we render `default=` instead.
 //
 
@@ -25,7 +25,7 @@ class FontRegistry;
 
 namespace TextPainter {
 
-// Resolve a `display=` key.  Returning an empty string means
+// Resolve a `display=` key. Returning an empty string means
 // "fall back to the `default` attribute".
 using DisplayResolver =
     std::function<QString(const QString &displayKey)>;

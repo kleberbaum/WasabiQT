@@ -7,13 +7,13 @@
 #include <api/script/scriptobj.h>
 #include <api/script/vcputypes.h>
 
-#define SCRIPT_MAXARGS    10
+#define SCRIPT_MAXARGS 10
 
-#define MAKI_CMD_NONE     0
-#define MAKI_CMD_SETDLF   1
-#define MAKI_CMD_GETDLF   2
-#define MAKI_CMD_ADDREF   3
-#define MAKI_CMD_REMREF   4
+#define MAKI_CMD_NONE 0
+#define MAKI_CMD_SETDLF 1
+#define MAKI_CMD_GETDLF 2
+#define MAKI_CMD_ADDREF 3
+#define MAKI_CMD_REMREF 4
 #define MAKI_CMD_RESETDLF 5
 
 class ScriptObjectController {

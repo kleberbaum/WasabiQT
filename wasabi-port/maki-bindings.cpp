@@ -1,25 +1,25 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Florian Kleber
 //
-// maki-bindings.cpp — function bodies for Wasabi script methods.
+// maki-bindings.cpp, function bodies for Wasabi script methods.
 //
 // The leaked vcpu.cpp's CALLM dispatcher (vcpu.cpp:1656+) casts
 // `e->ptr` to a function-pointer signature that depends on the
 // number of params:
 //
-//   nparams=0 → scriptVar fn(maki_cmd*, int vsd, ScriptObject*)
-//   nparams=1 → scriptVar fn(maki_cmd*, int vsd, ScriptObject*, scriptVar)
-//   nparams=2 → scriptVar fn(maki_cmd*, int vsd, ScriptObject*,
-//                              scriptVar, scriptVar)
-//   ... up to nparams=10
+// nparams=0 → scriptVar fn(maki_cmd*, int vsd, ScriptObject*)
+// nparams=1 → scriptVar fn(maki_cmd*, int vsd, ScriptObject*, scriptVar)
+// nparams=2 → scriptVar fn(maki_cmd*, int vsd, ScriptObject*,
+// scriptVar, scriptVar)
+// ... up to nparams=10
 //
-// scriptVar is passed BY VALUE (not pointer).  Each function gets the
+// scriptVar is passed BY VALUE (not pointer). Each function gets the
 // receiver as `__o`, the args, and returns scriptVar.
 //
 // Scope: M13d intentionally implements just enough that the load-
 // bearing scripts (std.mi versionCheck, titlebar.maki onScriptLoaded)
-// run cleanly without aborting on void returns.  Most methods return
-// "neutral" values (empty string, 0, void receiver) — visible widget
+// run cleanly without aborting on void returns. Most methods return
+// "neutral" values (empty string, 0, void receiver), visible widget
 // state still comes from the static `runKnownScripts` titlebar hack.
 // Real bodies for the geometry methods (getAutoWidth, setXmlParam,
 // findObject) land as we incrementally remove that hack.
@@ -29,10 +29,10 @@
 #include <api/script/vcputypes.h>
 
 #ifdef min
-#  undef min
+# undef min
 #endif
 #ifdef max
-#  undef max
+# undef max
 #endif
 
 #include <cstdio>
@@ -45,7 +45,7 @@
 namespace {
 
 // ── scriptVar factory helpers (mirrors upstream MAKE_SCRIPT_* /
-// objcontroller.cpp).  Defined locally to avoid pulling another
+// objcontroller.cpp). Defined locally to avoid pulling another
 // upstream object file. ─────────────────────────────────────────
 
 inline scriptVar makeVoid()              { scriptVar v{}; v.type = SCRIPT_VOID;   return v; }
@@ -59,8 +59,8 @@ inline scriptVar makeString(const wchar_t *s) {
 }
 
 // ── string interning ────────────────────────────────────────────
-// scriptVar sdata is `const wchar_t *` — the lifetime must outlive
-// the call.  Interning keeps strings around for the process life.
+// scriptVar sdata is `const wchar_t *`, the lifetime must outlive
+// the call. Interning keeps strings around for the process life.
 std::unordered_map<std::wstring, const wchar_t *> g_intern;
 const wchar_t *intern(const std::wstring &s) {
     auto it = g_intern.find(s);
@@ -106,8 +106,8 @@ extern "C" scriptVar wq_isTransparencyAvailable(maki_cmd *, int, ScriptObject *)
     return makeBoolean(1);
 }
 
-// Forward-declared in maki-bridge.h; bodies live in
-// wasabi-port-link-stubs.cpp.  Declared here as plain forward so we
+// Forward-declared in maki-bridge.h, bodies live in
+// wasabi-port-link-stubs.cpp. Declared here as plain forward so we
 // don't pull the full maki-bridge.h (which exposes Qt-incompatible
 // types via its Qt-side accessors).
 namespace WasabiQt::Maki {
@@ -116,8 +116,8 @@ namespace WasabiQt::Maki {
 }
 
 extern "C" scriptVar wq_getParam(maki_cmd *, int /*vsd*/, ScriptObject *) {
-    // Per-script `<script param="…">` — looked up by the currently-
-    // dispatching script id.  SkinRuntime sets it via setCurrentScriptId
+    // Per-script `<script param="…">`, looked up by the currently-
+    // dispatching script id. SkinRuntime sets it via setCurrentScriptId
     // before each fireEventByName / fireOnSetXuiParam call.
     return makeString(WasabiQt::Maki::currentScriptParam());
 }
@@ -190,9 +190,9 @@ extern "C" scriptVar wq_setPublicInt(maki_cmd *, int, ScriptObject *,
 }
 
 extern "C" scriptVar wq_getScriptGroup(maki_cmd *, int, ScriptObject *o) {
-    // Returns the script's enclosing group.  For M13d, just return
-    // the receiver (the SystemObject) — findObject on it walks every
-    // widget.  The widget tree integration lands in M13e.
+    // Returns the script's enclosing group. For M13d, just return
+    // the receiver (the SystemObject), findObject on it walks every
+    // widget. The widget tree integration lands in M13e.
     return makeObject(o);
 }
 
@@ -213,10 +213,10 @@ extern "C" scriptVar wq_show(maki_cmd *, int, ScriptObject *) { return makeVoid(
 extern "C" scriptVar wq_hide(maki_cmd *, int, ScriptObject *) { return makeVoid(); }
 extern "C" scriptVar wq_stop(maki_cmd *, int, ScriptObject *) { return makeVoid(); }
 
-// GuiObject / Group / Layer / Layout / Container — geometry stubs.
+// GuiObject / Group / Layer / Layout / Container, geometry stubs.
 // Real widget integration in M13e.
 
-// Qt-side bridge accessors — see src/SkinRuntimeBridge.cpp.
+// Qt-side bridge accessors, see src/SkinRuntimeBridge.cpp.
 extern "C" {
     void *wq_widget_findById(const wchar_t *id);
     void  wq_widget_setAttr(void *handle, const wchar_t *name, const wchar_t *value);
@@ -259,7 +259,7 @@ extern "C" scriptVar wq_setXmlParam(maki_cmd *, int, ScriptObject *o,
                             ? value.data.sdata : L"";
     if (std::getenv("WASABIQT_TRACE_MAKI")) {
         // %ls fprintf needs the right locale set, which we don't
-        // touch.  Manual narrow conversion (ASCII-only attr/value
+        // touch. Manual narrow conversion (ASCII-only attr/value
         // names) keeps the trace safe.
         char nb[128] = {0}, vb[256] = {0};
         for (int i = 0; i < 127 && name.data.sdata[i]; ++i)
@@ -290,8 +290,8 @@ extern "C" scriptVar wq_getAlpha(maki_cmd *, int, ScriptObject *) {
 
 extern "C" scriptVar wq_getAutoWidth(maki_cmd *, int, ScriptObject *o)  {
     // Wasabi convention: text widgets return their measured rendered
-    // text width.  For non-text widgets, falls back to declared `w`.
-    // M13e returns the resolved `w` attribute as a first approximation;
+    // text width. For non-text widgets, falls back to declared `w`.
+    // M13e returns the resolved `w` attribute as a first approximation,
     // text-specific measurement lands when we route into TextPainter.
     if (!o) return makeInt(0);
     return makeInt(wq_widget_getAttrInt(o, L"w"));
@@ -338,7 +338,7 @@ namespace WasabiQt::Maki {
 
 struct MakiMethod { const wchar_t *name; int nparams; void *ptr; };
 
-// Looked up by name in the new addrefDLF.  Entries with ptr=nullptr
+// Looked up by name in the new addrefDLF. Entries with ptr=nullptr
 // fall through to the safe no-op path (e->ptr stays NULL, CALLM
 // returns int 0).
 const MakiMethod *makiMethodTable(int *count) {

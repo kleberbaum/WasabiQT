@@ -2,15 +2,15 @@
 
 A Qt-native skin engine **inspired by** Winamp's Wasabi 1 and Wasabi 2,
 built fresh for the latest Qt with the goal of running Modern Winamp
-skins on **any themeable Winamp clone** — Audacious, WACUP, future
-projects — across Linux, macOS, and Windows. Apple Silicon native.
+skins on **any themeable Winamp clone**, Audacious, WACUP, future
+projects, across Linux, macOS, and Windows. Apple Silicon native.
 
 Pronounced "wasabi-cute".
 
 ## Approach: hybrid
 
 Re-implementing the Maki bytecode VM from scratch is a multi-year
-bug-hunt — thousands of shipped skins exercise small quirks of the
+bug-hunt, thousands of shipped skins exercise small quirks of the
 real VM, and the only spec is the running code. Porting the entire
 leaked Wasabi C++ to Linux is also impractical: the 2024 Llama Group
 release ships with `#error port me` markers across the BFC platform
@@ -21,7 +21,7 @@ WasabiQT splits the difference:
 
 | Component | Source | Why |
 |---|---|---|
-| **Maki bytecode VM** | leaked `/Src/Wasabi/api/script/`, **unmodified** | bit-perfect compatibility with every shipped Modern skin — no risk of re-implementation drift breaking obscure scripts |
+| **Maki bytecode VM** | leaked `/Src/Wasabi/api/script/`, **unmodified** | bit-perfect compatibility with every shipped Modern skin, no risk of re-implementation drift breaking obscure scripts |
 | **Minimal BFC subset** | leaked `/Src/Wasabi/bfc/{memblock,critsec,foreach,ptrlist,nsguid,thread}` | POSIX-clean parts of Wasabi's foundation library that the VM depends on. The unported Linux platform pieces (`std_file`, `std_keyboard`, `std_wnd`, …) we do **not** use |
 | **Wasabi widget classes** (`Group`, `Layer`, `Button`, `Slider`, `Text`, `Animation`, `Timer`, `Container`, …) | **WasabiQT's own Qt6 implementation** | matches Wasabi's documented behaviour and observed-from-source quirks (the libwasabiq prototype proved which quirks matter) but is fresh code rendering through `QPainter` |
 | **Skin XML parser, sendparams, gammaset, font loading** | **WasabiQT's own** | Qt-native, no platform port needed |
@@ -30,7 +30,7 @@ WasabiQT splits the difference:
 **What this gives us:**
 
 - Maki scripts run on the *actual* shipped VM. Any quirk a skin
-  depends on works automatically — we never have to chase down "why
+  depends on works automatically, we never have to chase down "why
   does titlebar.m centre wrong on this one skin".
 
 - Widget rendering is Qt-native, so HiDPI works, Wayland works,
@@ -41,8 +41,8 @@ WasabiQT splits the difference:
 
 **What this costs:**
 
-- Wasabi's *script bindings* — the C++ classes the VM calls into for
-  `setVisible`, `getAutoWidth`, `setXmlParam`, etc. — have to bridge
+- Wasabi's *script bindings*, the C++ classes the VM calls into for
+  `setVisible`, `getAutoWidth`, `setXmlParam`, etc., have to bridge
   the original VM's `ScriptObject` interface to our Qt-native widgets.
   That's a thin shim per binding (~40 native classes, mostly
   one-liners forwarding to our `Widget` base).
@@ -106,10 +106,9 @@ same way console emulators expect a user-supplied BIOS.
 ## What is BFC?
 
 BFC = **B**eex **F**oundation **C**lasses, Nullsoft's homegrown C++
-foundation library. Written ~2000–2002 because the C++ STL wasn't
+foundation library. Written ~2000, 2002 because the C++ STL wasn't
 reliably portable across the compilers Wasabi had to target (MSVC 6,
-GCC 2.x, CodeWarrior, Borland). It is literally Wasabi's stdlib —
-every Wasabi class transitively pulls BFC.
+GCC 2.x, CodeWarrior, Borland). It is literally Wasabi's stdlib, every Wasabi class transitively pulls BFC.
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -144,18 +143,18 @@ every Wasabi class transitively pulls BFC.
 **Two distinct layers** matter to us:
 
 1. **Foundation** (top-half: containers, GUIDs, dispatch, node-tree,
-   threading, strings, math) — POSIX-clean ~3000 LOC. This is what
+   threading, strings, math), POSIX-clean ~3000 LOC. This is what
    the Maki VM and script-binding registry depend on. Compiles on
    Linux/macOS without modification.
 
 2. **Platform** (bottom-half, marked ✗: `std_file`, `std_keyboard`,
-   `std_wnd`, `loadlib`) — the unfinished part. Win32 done, macOS
+   `std_wnd`, `loadlib`), the unfinished part. Win32 done, macOS
    partly, Linux X11 abandoned circa 2008. WasabiQT does **not**
-   use these — file I/O goes through Qt's `QFile`, keyboard through
+   use these, file I/O goes through Qt's `QFile`, keyboard through
    `QKeyEvent`, window through `QtWindowAdapter`, plugins through
    `QLibrary`. The compile shim header tells BFC's transitively-
    included `std_file.h` etc. that yes, the symbols are declared
-   somewhere — but the VM never actually calls them, so the linker
+   somewhere, but the VM never actually calls them, so the linker
    never has to find an implementation.
 
 ### How Wasabi uses BFC's GUID + dispatch
@@ -198,16 +197,16 @@ Only this irreducible subset compiles into the WasabiQT library:
 
 Total: ~8000 LOC of leaked source, all platform-independent.
 
-Everything else — the BFC platform layer (`std_file`, `std_keyboard`,
+Everything else, the BFC platform layer (`std_file`, `std_keyboard`,
 `std_wnd`, `linux.cpp`, the X11 backend), the widget classes, the
 canvas/window infrastructure, the sendparams handling, the XML parser
-— is **WasabiQT's own implementation**, written ground-up against
+, is **WasabiQT's own implementation**, written ground-up against
 modern Qt6 idioms.
 
 ## Why this matters to me
 
 The dream is selfish. I want to listen to music on my Apple M-Series
-Mac the way I did on Windows in the early 2000s — Winamp running
+Mac the way I did on Windows in the early 2000s, Winamp running
 natively on **Asahi Linux** and **macOS**, painting through the same
 Qt that already gives me a beautiful desktop on Asahi. No Wine, no
 x86 emulation, no nostalgia-VM in a window. Just the actual skin
@@ -217,38 +216,37 @@ canonical WACUP / Winamp Modern reference renders.
 The bigger goal is that this becomes embeddable in any themeable
 Winamp clone. Wasabi was a great UI framework that nobody else
 could use because it shipped welded to one player's runtime.
-WasabiQT is the small, embeddable piece you actually wanted —
-implement a `WasabiQt::Host` (~40 virtual methods), drop a
+WasabiQT is the small, embeddable piece you actually wanted, implement a `WasabiQt::Host` (~40 virtual methods), drop a
 `WasabiQt::Skin` into your `QMainWindow`, and your media player has
 classic `.wal` skin support.
 
 ## Inspirations
 
-- **Wasabi 1** — `Src/Wasabi/api/`'s widget framework and Maki VM.
-  The VM is vendored unmodified; the widget classes are
+- **Wasabi 1**, `Src/Wasabi/api/`'s widget framework and Maki VM.
+  The VM is vendored unmodified, the widget classes are
   re-implemented in Qt for the platform-port reasons described
   above. Their documented behaviour is the spec.
-- **Wasabi 2** — `Src/replicant/`'s service-oriented rewrite, never
+- **Wasabi 2**, `Src/replicant/`'s service-oriented rewrite, never
   finished. WasabiQT shares its goal (cross-platform, modular) and
   goes further by replacing the rendering layer entirely with Qt.
-- **`Src/Wasabi/qt6/QtWindowAdapter` / `QtCanvasAdapter`** — the
+- **`Src/Wasabi/qt6/QtWindowAdapter` / `QtCanvasAdapter`**, the
   abandoned ~2015 Qt6 adapter shim. Useful as **reference** for what
   surface to expose to Wasabi expectations, but the implementation
   there targets a 2015-era Qt with several MOC workarounds no longer
   needed. WasabiQT targets the **latest Qt** (Qt6 today, Qt7+ when
   it ships).
-- **`libwasabiq` prototype** (deleted; lives in
+- **`libwasabiq` prototype** (deleted, lives in
   [`winamp-linux`](https://github.com/kleberbaum/winamp-linux) git
-  history) — earlier clean-room re-implementation that taught us
+  history), earlier clean-room re-implementation that taught us
   where every visible gap lives in the leaked source. Test harness,
   reference image corpus, and host-interface design carry forward.
 
 ## Targets
 
-- **Linux** — Asahi (aarch64), Fedora, Arch, Debian, openSUSE.
+- **Linux**, Asahi (aarch64), Fedora, Arch, Debian, openSUSE.
   Wayland-first.
-- **macOS** — Apple Silicon native (M-series), Intel as a courtesy.
-- **Windows** — because of course.
+- **macOS**, Apple Silicon native (M-series), Intel as a courtesy.
+- **Windows**, because of course.
 
 Qt6 abstracts the rest. No platform-specific render code beyond
 what Qt itself does.
@@ -257,29 +255,29 @@ what Qt itself does.
 
 Bootstrapping. Concrete next milestones, in dependency order:
 
-1. **`bfc/` minimal subset compiles** — `memblock`, `critsec`,
+1. **`bfc/` minimal subset compiles**, `memblock`, `critsec`,
    `foreach`, `freelist`, `nsguid`, `ptrlist`, `stack`, `node`,
    `thread`, `wasabi_std` against gcc/clang on Linux/macOS, with a
    shim header that pre-defines the file-I/O symbols BFC's
    transitively-included `std_file.h` looks for. ~half a day's work
    once the shim is right.
 
-2. **Maki VM compiles + runs a `.maki` blob** — `vcpu`, `scriptmgr`,
+2. **Maki VM compiles + runs a `.maki` blob**, `vcpu`, `scriptmgr`,
    `objecttable`, `scriptobj` linked against (1). Smoke test:
    load a compiled `std.mi`-using script, dispatch `onScriptLoaded`
    against a stub `SystemObject`, no opcodes left unhandled.
 
-3. **WasabiQT widget tree + skin XML parser** — port the
+3. **WasabiQT widget tree + skin XML parser**, port the
    well-tested libwasabiq XML parser + Widget tree into WasabiQT's
    `src/`. Parses WinampModernPP's `skin.xml`, dumps the
    `Container`/`Layout`/`groupdef` tree.
 
-4. **First widget paints through Qt** — implement `Layer::paint`,
+4. **First widget paints through Qt**, implement `Layer::paint`,
    `Group::paint`, etc. in WasabiQT's widget classes routing to
    `QtCanvasAdapter`. Player frame chrome (top corners + horizontal
    frame) renders inside a `QtWindowAdapter`.
 
-5. **Script bindings bridge** — `script-bridge/` shims our
+5. **Script bindings bridge**, `script-bridge/` shims our
    Qt-native widgets to the VM's `ScriptObject` interface so Maki
    scripts can call `setVisible`, `setXmlParam`, `getAutoWidth`,
    etc. against them. The pixel-counted libwasabiq fixes (text +2
@@ -287,19 +285,18 @@ Bootstrapping. Concrete next milestones, in dependency order:
    onSetXuiParam args order, …) carry forward as canonical
    bridging behaviour.
 
-6. **WACUP titlebar pixel-regression test passes** — `tests/`
+6. **WACUP titlebar pixel-regression test passes**, `tests/`
    compares our render against the canonical 354×164 reference.
    When this passes, winamp-linux's
    `WasabiQt::Skin::load("/path/to/WinampModernPP")` shows the
    correct thing in the player.
 
 Each milestone is mechanical work (add sources to CMake, fix the
-next compile error, run the next test) — but they're genuinely a
+next compile error, run the next test), but they're genuinely a
 few sessions' work, not a single evening.
 
 The reference embedder is
-[**winamp-linux**](https://github.com/kleberbaum/winamp-linux) —
-already wired up to link against the WasabiQT library; will swap
+[**winamp-linux**](https://github.com/kleberbaum/winamp-linux), already wired up to link against the WasabiQT library, will swap
 in `WasabiQt::Skin::load` for its current modern-skin code path
 once milestone 6 lands.
 
@@ -310,5 +307,5 @@ WasabiQT (everything in this repo): **MIT**, see [`LICENSE`](LICENSE).
 The leaked Wasabi source you supply at build time: Winamp
 Collaborative License v1.0, see the source archive's own
 `LICENSE.md`. Your responsibility to honour. WCL §3 grants
-"propagate Covered works that you do not Convey" — that's the
+"propagate Covered works that you do not Convey", that's the
 clause that lets you build WasabiQT against your local copy.

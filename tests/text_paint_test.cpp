@@ -1,4 +1,4 @@
-// M10 — TextPainter renders bitmap-font text widgets.
+// M10, TextPainter renders bitmap-font text widgets.
 //
 // Loads Winamp Modern, expands main/normal, renders the layout with
 // a stub display resolver returning known time/bitrate/frequency
@@ -82,7 +82,7 @@ private slots:
         painter.end();
 
         // The timer occupies roughly (33-103, 36-56) in canvas coords.
-        // Count pale pixels (the digit glyphs) — should be > 0 if the
+        // Count pale pixels (the digit glyphs), should be > 0 if the
         // text painter wrote them.
         int pale = 0;
         for (int y = 36; y < 56; ++y) {

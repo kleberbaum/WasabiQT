@@ -1,21 +1,21 @@
 #pragma once
 //
-// GammasetRegistry — collects every <gammaset> + <gammagroup>
+// GammasetRegistry, collects every <gammaset> + <gammagroup>
 // declaration from the parsed skin and applies the per-channel RGB
 // linear transform Wasabi calls "gamma".
 //
 // Each <gammagroup> declares (R, G, B, gray, boost) values:
 //
-//   value="r,g,b"   — per-channel linear adjustment in -4096..+4096
-//                     range.  rm = 65535 + r*16, applied as
-//                     channel_out = clamp(channel_in * rm / 65535, 0, 255)
-//   gray="0|1|2"    — desaturation strategy: 1=max(R,G,B), 2=avg
-//   boost="0|1"     — pre-shift each channel toward 1.0 by alpha
+// value="r,g,b", per-channel linear adjustment in -4096..+4096
+// range. rm = 65535 + r*16, applied as
+// channel_out = clamp(channel_in * rm / 65535, 0, 255)
+// gray="0|1|2", desaturation strategy: 1=max(R,G,B), 2=avg
+// boost="0|1", pre-shift each channel toward 1.0 by alpha
 //
 // The transform mirrors upstream Winamp's GammaFilter::filterBitmap.
 //
 // A skin can ship many gammasets ("Default", "Good Ol' Winamp", ...).
-// The user picks one via Color Themes drawer at runtime.  The
+// The user picks one via Color Themes drawer at runtime. The
 // embedder tells WasabiQT which is active via setActiveGammaset().
 
 #include <QtCore/qglobal.h>
@@ -54,7 +54,7 @@ public:
     GammaGroup          transformFor(const QString &gammagroup) const;
 
     // Apply the transform IN PLACE to `img` (must be ARGB32 or
-    // ARGB32_Premultiplied).  Identity transforms early-out.
+    // ARGB32_Premultiplied). Identity transforms early-out.
     static void applyToImage(QImage &img, const GammaGroup &t);
 
 private:

@@ -1,5 +1,5 @@
-// Stub for upstream <api/script/objects/wacobj.h>.  Pulled by
-// scriptmgr.h chain — we never dispatch into Wac* from the VM layer
+// Stub for upstream <api/script/objects/wacobj.h>. Pulled by
+// scriptmgr.h chain, we never dispatch into Wac* from the VM layer
 // during M2.
 #pragma once
 #define _WACOBJ_H 1

@@ -3,15 +3,14 @@
 #pragma once
 
 //
-// QtCanvasAdapter — bridges Wasabi's GDI-style canvas API onto QPainter.
+// QtCanvasAdapter, bridges Wasabi's GDI-style canvas API onto QPainter.
 //
 // Wasabi's BltCanvas / Canvas / TextInfoCanvas (api/wnd/*) use Win32
 // HDC concepts: BitBlt, StretchBlt, TextOut, GetTextExtentPoint32,
-// CreateFont, etc.  This adapter routes those calls through Qt's
+// CreateFont, etc. This adapter routes those calls through Qt's
 // QPainter, with HiDPI awareness and Wayland-safe transforms.
 //
-// Reference (NOT source): /Src/Wasabi/qt6/QtCanvasAdapter.{h,cpp} —
-// the 2015-era stub.  Useful for what surface to expose; the
+// Reference (NOT source): /Src/Wasabi/qt6/QtCanvasAdapter.{h,cpp}, // the 2015-era stub. Useful for what surface to expose, the
 // implementation here is fresh.
 //
 
@@ -30,7 +29,7 @@ namespace WasabiQt {
 class QtCanvasAdapter {
 public:
     // Construct around an existing QPainter (typical: from
-    // QWidget::paintEvent).  Adapter does not own the painter.
+    // QWidget::paintEvent). Adapter does not own the painter.
     explicit QtCanvasAdapter(QPainter *painter);
 
     // Construct around a QImage owned by the adapter (offscreen
@@ -56,7 +55,7 @@ public:
     void setTextColor(COLORREF colour);
     void setBkColor(COLORREF colour);
 
-    // QImage access — used by region-mask building, sysregion-2
+    // QImage access, used by region-mask building, sysregion-2
     // alpha extraction, etc.
     QImage  &image();
     const QImage &image() const;

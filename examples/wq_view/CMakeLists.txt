@@ -1,4 +1,4 @@
-# wq_view — minimal skin viewer demo.  Opens a <container>/<layout>
+# wq_view, minimal skin viewer demo. Opens a <container>/<layout>
 # from a parsed skin XML in a frameless Qt window.
 
 add_executable(wq_view main.cpp)

@@ -9,16 +9,16 @@ Two test types live here:
 golden/            committed reference PNG used by titlebar_test
 ```
 
-| Test                    | Verifies                                             |
+| Test | Verifies |
 |-------------------------|------------------------------------------------------|
-| `maki_loader_test`      | M2 — vendored `vcpu.cpp` links + parses `.maki`s    |
-| `skin_xml_test`         | M3 — Modern + Bento + Big Bento parse                |
-| `layer_paint_test`      | M4 — bitmap registry + sub-rect blits                |
-| `titlebar_test`         | M5 — pixel-exact diff vs `golden/titlebar_active_streak.png` |
-| `layout_test`           | M6 — groupdef + sendparams expansion                 |
-| `tree_paint_test`       | M7 — multi-widget walker on Modern's main/normal     |
-| `skinview_test`         | M8 — `SkinView` QWidget pipeline (offscreen grab)    |
-| `text_paint_test`       | M10 — bitmap-font glyphs in the timer zone           |
+| `maki_loader_test` | M2, vendored `vcpu.cpp` links + parses `.maki`s |
+| `skin_xml_test` | M3, Modern + Bento + Big Bento parse |
+| `layer_paint_test` | M4, bitmap registry + sub-rect blits |
+| `titlebar_test` | M5, pixel-exact diff vs `golden/titlebar_active_streak.png` |
+| `layout_test` | M6, groupdef + sendparams expansion |
+| `tree_paint_test` | M7, multi-widget walker on Modern's main/normal |
+| `skinview_test` | M8, `SkinView` QWidget pipeline (offscreen grab) |
+| `text_paint_test` | M10, bitmap-font glyphs in the timer zone |
 
 Run them all:
 
@@ -36,10 +36,10 @@ visual/expected/          — committed golden PNGs
 visual/actual/            — gitignored; written by the harness
 ```
 
-The `render_layout` binary is the workhorse — it loads a parsed skin,
+The `render_layout` binary is the workhorse, it loads a parsed skin,
 runs the full WasabiQT pipeline (parse → expand → paint), and writes
-a deterministic PNG using `QT_QPA_PLATFORM=offscreen`.  No window
-required; runs anywhere with libQt6Gui (incl. headless CI).
+a deterministic PNG using `QT_QPA_PLATFORM=offscreen`. No window
+required, runs anywhere with libQt6Gui (incl. headless CI).
 
 Add a new visual case by appending one line to `cases.txt` (pipe-
 separated for spaces in theme names) and re-running the harness with
@@ -65,10 +65,10 @@ WASABIQT_REGEN_GOLDENS=1 QT_QPA_PLATFORM=offscreen \
 WASABIQT_TEST_SKIN=/path/to/other/skin.xml ctest --test-dir build -R visual_diff
 ```
 
-Tolerance is 0.5% mismatched pixels by default — bumped if a future
+Tolerance is 0.5% mismatched pixels by default, bumped if a future
 test needs to absorb minor antialias drift across Qt versions.
 
-The harness is **CI-friendly** — no display server needed.  Wire it up
+The harness is **CI-friendly**, no display server needed. Wire it up
 as e.g. a GitHub Actions step:
 
 ```yaml

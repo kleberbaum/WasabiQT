@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Florian Kleber
 //
-// render_layout — offscreen renderer for visual regression.
+// render_layout, offscreen renderer for visual regression.
 //
 // Usage:
 //
-//   QT_QPA_PLATFORM=offscreen render_layout <skin.xml> <out.png>
-//                              [--theme NAME]
-//                              [--container ID]   (default: main)
-//                              [--layout    ID]   (default: normal)
-//                              [--w PX --h PX]    (default: 354 280)
-//                              [--display key=value]*
+// QT_QPA_PLATFORM=offscreen render_layout <skin.xml> <out.png>
+// [--theme NAME]
+// [--container ID] (default: main)
+// [--layout ID] (default: normal)
+// [--w PX --h PX] (default: 354 280)
+// [--display key=value]*
 //
 // The whole point of this binary: capture a deterministic PNG of a
 // skin's layout WITHOUT opening a window, so visual regressions can
 // be diff'd against committed `tests/visual/expected/*.png` golden
-// images in CI — no display server required.
+// images in CI, no display server required.
 
 #include <WasabiQt/SkinXml.h>
 #include <WasabiQt/Layout.h>

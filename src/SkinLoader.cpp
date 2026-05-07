@@ -30,8 +30,8 @@ bool Skin::load(const QString &path)
 {
     d->loadedPath = path;
     // TODO: wire to Wasabi's SkinParser via Bootstrap once the
-    // service registry is up.  For now we register the path and
-    // return false — real loading happens in the next milestone.
+    // service registry is up. For now we register the path and
+    // return false, real loading happens in the next milestone.
     return false;
 }
 

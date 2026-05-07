@@ -17,10 +17,10 @@ namespace WasabiQt::SkinXml {
 namespace {
 
 // Wasabi uses colon-prefixed tag names (`<Wasabi:StandardFrame:NoStatus/>`,
-// `<menu:button_hover/>`, etc.) without an xmlns declaration.  Strict
+// `<menu:button_hover/>`, etc.) without an xmlns declaration. Strict
 // XML parsers (Qt's included) treat `:` as a namespace separator and
-// reject these.  Convert colons to underscores in tag-name positions
-// before parsing.  Attribute values stay untouched (they sit inside
+// reject these. Convert colons to underscores in tag-name positions
+// before parsing. Attribute values stay untouched (they sit inside
 // `"..."` and our regex doesn't match those).
 QByteArray normaliseColons(const QByteArray &raw) {
     const QString s = QString::fromUtf8(raw);
@@ -45,8 +45,7 @@ QByteArray normaliseColons(const QByteArray &raw) {
 // Wrap the file's content in a synthetic <wasabi-root> so files with
 // several top-level siblings (e.g. xml/player.xml: two <include>s
 // followed by a <container>) parse cleanly under QXmlStreamReader,
-// which requires exactly one root element.  The XML declaration —
-// `<?xml ... ?>` — must remain at the very start of the file, so we
+// which requires exactly one root element. The XML declaration, // `<?xml ... ?>`, must remain at the very start of the file, so we
 // keep it in place and inject our wrapper immediately after.
 QByteArray wrapInSyntheticRoot(const QByteArray &content) {
     QByteArray out;
@@ -109,11 +108,11 @@ struct Parser {
 
         // Wasabi skin XML files are fragments: each file's content is
         // a list of top-level elements that get spliced directly into
-        // the parent at the include point.  Some files wrap the list
+        // the parent at the include point. Some files wrap the list
         // in <WasabiXML>/<WinampAbstractionLayer> (which we transparently
         // unwrap), others have several siblings at the file root with
         // no wrapper at all (e.g. xml/player.xml: two <include>s, then
-        // a <container>).  We walk every top-level event and let
+        // a <container>). We walk every top-level event and let
         // readTopLevelElement decide what to do.
         const QString relPath = relativeFromSkin(absPath);
         bool sawAny = false;
@@ -139,8 +138,8 @@ struct Parser {
         return true;
     }
 
-    // xml is positioned at a StartElement.  Decide what kind of
-    // element it is — wrapper, include, or real — and dispatch.
+    // xml is positioned at a StartElement. Decide what kind of
+    // element it is, wrapper, include, or real, and dispatch.
     bool readTopLevelElement(QXmlStreamReader &xml, Element &parent,
                              const QString &relPath, QString *errMsg) {
         const QString tag = xml.name().toString().toLower();
@@ -210,7 +209,7 @@ struct Parser {
 
             const QString tag = xml.name().toString().toLower();
 
-            // <include file="…"/> — resolve and splice children.
+            // <include file="…"/>, resolve and splice children.
             if (tag == QStringLiteral("include")) {
                 QString file;
                 for (const auto &a : xml.attributes()) {
@@ -224,7 +223,7 @@ struct Parser {
                 QString sub = QDir(cur.absolutePath())
                                   .absoluteFilePath(file);
                 if (!readFile(sub, parent, errMsg)) {
-                    // Don't fail the whole parse — record and continue.
+                    // Don't fail the whole parse, record and continue.
                     doc->warnings << QStringLiteral("include failed: %1")
                                           .arg(file);
                 }

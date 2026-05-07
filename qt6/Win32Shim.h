@@ -3,21 +3,21 @@
 #pragma once
 
 //
-// Win32Shim.h — Win32 typedefs for non-Windows platforms.
+// Win32Shim.h, Win32 typedefs for non-Windows platforms.
 //
 // Wasabi's API surface uses HWND/HDC/HBITMAP/RECT/POINT throughout
-// because it grew up on Win32 in 2002.  When we build it on Linux or
+// because it grew up on Win32 in 2002. When we build it on Linux or
 // macOS we still need those types declared so the headers compile.
 // We use **opaque-pointer typedefs** for HWND etc. (rather than
 // HWND→QWidget*) so internal Wasabi code never accidentally tries to
 // memcpy a HWND or pass it through the Win32 API.
 //
 // The actual mapping HWND → QWidget* (and HDC → QPainter*) lives in
-// QtWindowAdapter / QtCanvasAdapter.  Internal Wasabi code receives
-// opaque handles; only the adapter knows how to resolve them.
+// QtWindowAdapter / QtCanvasAdapter. Internal Wasabi code receives
+// opaque handles, only the adapter knows how to resolve them.
 //
-// Reference (not source): /Src/Wasabi/qt6/win32_types.h.  That file
-// targets a 2015-era Qt and pulls Q_OBJECT into the typedefs; we
+// Reference (not source): /Src/Wasabi/qt6/win32_types.h. That file
+// targets a 2015-era Qt and pulls Q_OBJECT into the typedefs, we
 // avoid both.
 //
 
@@ -26,11 +26,11 @@
 #if defined(_WIN32) || defined(_WIN64)
 
 // Real Windows: include the actual Win32 headers and keep going.
-#  include <windows.h>
+# include <windows.h>
 
-#else  // Linux, macOS, Asahi, BSD, ...
+#else // Linux, macOS, Asahi, BSD, ...
 
-// Opaque pointer typedefs.  Wasabi treats these as cookies; only
+// Opaque pointer typedefs. Wasabi treats these as cookies, only
 // the Qt adapter knows how to dereference.
 
 struct WasabiQtOpaque_HWND;
@@ -79,21 +79,21 @@ struct SIZE  { LONG cx, cy; };
 
 using COLORREF = uint32_t;          // Win32: 0x00BBGGRR
 
-#  ifndef RGB
-#    define RGB(r, g, b) (COLORREF)(((BYTE)(r)) | ((BYTE)(g) << 8) | ((BYTE)(b) << 16))
-#  endif
+# ifndef RGB
+# define RGB(r, g, b) (COLORREF)(((BYTE)(r)) | ((BYTE)(g) << 8) | ((BYTE)(b) << 16))
+# endif
 
-#  define GetRValue(c) (BYTE)((c)        & 0xFF)
-#  define GetGValue(c) (BYTE)(((c) >>  8) & 0xFF)
-#  define GetBValue(c) (BYTE)(((c) >> 16) & 0xFF)
+# define GetRValue(c) (BYTE)((c) & 0xFF)
+# define GetGValue(c) (BYTE)(((c) >> 8) & 0xFF)
+# define GetBValue(c) (BYTE)(((c) >> 16) & 0xFF)
 
-#  ifndef TRUE
-#    define TRUE  1
-#    define FALSE 0
-#  endif
+# ifndef TRUE
+# define TRUE 1
+# define FALSE 0
+# endif
 
-#  ifndef NULL
-#    define NULL nullptr
-#  endif
+# ifndef NULL
+# define NULL nullptr
+# endif
 
-#endif  // !_WIN32
+#endif // !_WIN32

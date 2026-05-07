@@ -3,11 +3,11 @@
 #pragma once
 
 //
-// QtWindowAdapter — bridges Wasabi's ifc_window concept onto QWidget.
+// QtWindowAdapter, bridges Wasabi's ifc_window concept onto QWidget.
 //
 // Wasabi's BaseWnd / VirtualWnd manage a tree of "windows" with
 // HWND-style behaviour (clientToScreen, getPosition, paint, mouse
-// events, sysregion masks).  This adapter wraps a QWidget so Wasabi
+// events, sysregion masks). This adapter wraps a QWidget so Wasabi
 // code unchanged sees the familiar interface, while the actual
 // rendering and event delivery happen through Qt.
 //
@@ -29,7 +29,7 @@ public:
     explicit QtWindowAdapter(QWidget *parent = nullptr);
     ~QtWindowAdapter() override;
 
-    // Resolve our QWidget*  ↔ HWND opaque handle — used by the
+    // Resolve our QWidget* ↔ HWND opaque handle, used by the
     // Wasabi-side code that internally still passes HWNDs around.
     HWND     hwnd() const noexcept;
     static QtWindowAdapter *fromHwnd(HWND h) noexcept;
@@ -41,7 +41,7 @@ public:
     void getWindowRect(RECT *r) const;
 
     // Sysregion mask: Wasabi computes a QRegion-equivalent from
-    // sysregion=-1/-2 layers; the adapter applies it via setMask().
+    // sysregion=-1/-2 layers, the adapter applies it via setMask().
     void setSkinRegion(const QRegion &region);
 
 protected:

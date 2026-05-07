@@ -12,8 +12,8 @@
 namespace WasabiQt {
 
 namespace {
-// Cookie ↔ adapter registry.  HWND opaques are non-null pointers we
-// hand to Wasabi; we resolve them back here.  Generation counter so
+// Cookie ↔ adapter registry. HWND opaques are non-null pointers we
+// hand to Wasabi, we resolve them back here. Generation counter so
 // stale HWNDs from destroyed adapters don't accidentally match.
 QHash<intptr_t, QtWindowAdapter*> &registry() {
     static QHash<intptr_t, QtWindowAdapter*> r;
@@ -88,7 +88,7 @@ void QtWindowAdapter::setSkinRegion(const QRegion &region)
     setMask(region);
 }
 
-// Stub paint — real paint will route through Wasabi's widget tree
+// Stub paint, real paint will route through Wasabi's widget tree
 // once skin loading is wired up in src/.
 void QtWindowAdapter::paintEvent(QPaintEvent *event) { Q_UNUSED(event); }
 

@@ -1,18 +1,17 @@
 #pragma once
 //
-// SkinXml — Wasabi skin.xml parser.  Qt-native (QXmlStreamReader),
+// SkinXml, Wasabi skin.xml parser. Qt-native (QXmlStreamReader),
 // no upstream dependency.
 //
 // Wasabi skins are a tree of XML files rooted at `skin.xml` with an
 // `<include file="..."/>` mechanism for splitting the tree across
-// many physical files.  This parser walks the tree top-down,
+// many physical files. This parser walks the tree top-down,
 // resolving every `<include>` recursively, and produces a flat
 // `Element` representation that downstream code (the widget builder)
 // translates into `WasabiQt::Widget`s.
 //
-// We intentionally don't model individual element semantics here —
-// every tag becomes the same `Element` struct with `tag`, `attrs`,
-// `children`, `text`.  The widget builder layer (M4) interprets them
+// We intentionally don't model individual element semantics here, // every tag becomes the same `Element` struct with `tag`, `attrs`,
+// `children`, `text`. The widget builder layer (M4) interprets them
 // based on `tag`.
 //
 // Tag names are normalised to lowercase: skins are inconsistent about
@@ -57,8 +56,8 @@ struct Document {
 };
 
 // Parse `skinXmlPath` (typically `<skin>/skin.xml`) and return a fully
-// expanded document.  Returns true on success, false if the root file
-// can't be opened or is malformed; in either case `errMsg`, if
+// expanded document. Returns true on success, false if the root file
+// can't be opened or is malformed, in either case `errMsg`, if
 // non-null, receives a description of the first hard error.
 bool parse(const QString &skinXmlPath, Document &out, QString *errMsg = nullptr);
 

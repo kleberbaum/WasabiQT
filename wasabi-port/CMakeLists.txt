@@ -1,4 +1,4 @@
-# wasabi-port/ — minimum BFC subset + leaked Maki VM compiled with the
+# wasabi-port/, minimum BFC subset + leaked Maki VM compiled with the
 # port-shim.
 #
 # WasabiQT's hybrid approach: vendor the leaked Maki VM source bit-perfect
@@ -14,7 +14,7 @@ set(WASABIQT_PORT_STUBDIR ${CMAKE_CURRENT_SOURCE_DIR}/include-stubs)
 
 set(WASABIQT_BFC_SOURCES
     # ── BFC subset ───────────────────────────────────────────────
-    # Pure containers / GUID / geometry — POSIX-clean, all compile
+    # Pure containers / GUID / geometry, POSIX-clean, all compile
     # straight from WASABI_SRC_DIR with the port-shim.
     ${WASABI_SRC_DIR}/Wasabi/bfc/memblock.cpp
     ${WASABI_SRC_DIR}/Wasabi/bfc/foreach.cpp
@@ -24,19 +24,19 @@ set(WASABIQT_BFC_SOURCES
     ${WASABI_SRC_DIR}/Wasabi/bfc/freelist.cpp
     ${WASABI_SRC_DIR}/Wasabi/bfc/wasabi_std_rect.cpp
     ${WASABI_SRC_DIR}/Wasabi/bfc/nsguid.cpp
-    # StringW.cpp is NOT compiled directly — upstream lacks a Linux
+    # StringW.cpp is NOT compiled directly, upstream lacks a Linux
     # branch in StringW::va_sprintf and falls through with no return
-    # (SIGTRAP at the next caller).  StringW-port.cpp #include's it
+    # (SIGTRAP at the next caller). StringW-port.cpp #include's it
     # under `#define __APPLE__ 1`, which routes va_sprintf to the
     # POSIX vswprintf path that works on Linux.
     ${CMAKE_CURRENT_SOURCE_DIR}/StringW-port.cpp
     ${WASABI_SRC_DIR}/Wasabi/bfc/string/string.cpp
 
     # ── Maki VM (leaked, unmodified) ─────────────────────────────
-    # vcpu.cpp is the bit-perfect bytecode dispatch loop.  Its header
+    # vcpu.cpp is the bit-perfect bytecode dispatch loop. Its header
     # neighbours scriptmgr.cpp / script.cpp are integration glue that
     # pulls the entire skin/widget tree and is therefore *not*
-    # vendored — WasabiQT writes its own thin manager that wires the
+    # vendored, WasabiQT writes its own thin manager that wires the
     # VM to the WasabiQt::Skin widget tree.
     ${WASABI_SRC_DIR}/Wasabi/api/script/vcpu.cpp
 
@@ -45,27 +45,27 @@ set(WASABIQT_BFC_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/wasabi-port-stubs.cpp
 
     # Link-time bodies for the upstream classes our include-stubs/
-    # headers declare.  Returning-default implementations so the
-    # leaked vcpu.cpp links into libwasabiqt.  WasabiQT-own code
+    # headers declare. Returning-default implementations so the
+    # leaked vcpu.cpp links into libwasabiqt. WasabiQT-own code
     # later supplies the real bodies (script bindings → Qt widgets).
     ${CMAKE_CURRENT_SOURCE_DIR}/wasabi-port-link-stubs.cpp
 
     # Bridge between the leaked VCPU class and the rest of WasabiQT.
-    # Sole TU that includes <api/script/vcpu.h> — limits the blast
+    # Sole TU that includes <api/script/vcpu.h>, limits the blast
     # radius of bfc/platform/linux.h's macro pollution.
     ${CMAKE_CURRENT_SOURCE_DIR}/maki-bridge.cpp
 
     # WidgetScriptObject: ScriptObject subclass backed by an opaque
-    # widget pointer.  Sole TU that #include's <api/script/scriptobj.h>.
+    # widget pointer. Sole TU that #include's <api/script/scriptobj.h>.
     ${CMAKE_CURRENT_SOURCE_DIR}/widget-script-object.cpp
 
-    # Maki method bodies — function pointers that ObjectTable::
+    # Maki method bodies, function pointers that ObjectTable::
     # addrefDLF wires into VCPUdlfEntry::ptr so CALLMs run real code.
     ${CMAKE_CURRENT_SOURCE_DIR}/maki-bindings.cpp
 )
 
-# Object library — the .o files are pulled into both the shared and the
-# static libwasabiqt without rebuilding twice.  Downstream targets in
+# Object library, the .o files are pulled into both the shared and the
+# static libwasabiqt without rebuilding twice. Downstream targets in
 # src/ refer to it via the WASABIQT_PORT_OBJECTS variable below.
 add_library(wasabiqt_port OBJECT ${WASABIQT_BFC_SOURCES})
 

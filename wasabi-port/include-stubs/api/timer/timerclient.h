@@ -1,4 +1,4 @@
-// Stub overlay: upstream has #error port me.  Linux build never
+// Stub overlay: upstream has #error port me. Linux build never
 // dispatches into the timer API from the VM layer.
 #pragma once
 #define _TIMERCLIENT_H 1

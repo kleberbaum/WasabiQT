@@ -1,4 +1,4 @@
-# src/ — engine integration glue.
+# src/, engine integration glue.
 #
 # Builds BOTH a shared library (libwasabiqt.so / .dylib / .dll) for
 # system-wide / package-manager installation AND an importable
@@ -7,7 +7,7 @@
 #
 # Bridges the WasabiQt::Host embedder interface to Wasabi's service
 # registry, loads skins via Wasabi's SkinParser, and forwards Maki
-# script events back to the host.  The actual VM and widget classes
+# script events back to the host. The actual VM and widget classes
 # come from the user-supplied ${WASABI_SRC_DIR}.
 
 set(WASABIQT_SOURCES
@@ -26,7 +26,7 @@ set(WASABIQT_SOURCES
     SkinView.cpp
     ${CMAKE_SOURCE_DIR}/public/WasabiQt/SkinView.h
     Bootstrap.cpp
-    # Q_OBJECT public headers — listed so AUTOMOC generates their
+    # Q_OBJECT public headers, listed so AUTOMOC generates their
     # moc_*.cpp files inside this target (otherwise downstream link
     # complains about missing vtables for Skin etc.)
     ${CMAKE_SOURCE_DIR}/public/WasabiQt/Skin.h
@@ -35,14 +35,14 @@ set(WASABIQT_SOURCES
 
 # ── shared library ─────────────────────────────────────────────
 # WASABIQT_PORT_OBJECTS is a $<TARGET_OBJECTS:wasabiqt_port> generator
-# expression — each .o is embedded directly without an intermediate
-# static archive.  Set in wasabi-port/CMakeLists.txt.
+# expression, each .o is embedded directly without an intermediate
+# static archive. Set in wasabi-port/CMakeLists.txt.
 add_library(wasabiqt SHARED
     ${WASABIQT_SOURCES}
     ${WASABIQT_PORT_OBJECTS})
 add_library(WasabiQT::WasabiQT ALIAS wasabiqt)
 
-# ── static library (always built; small, gives embedders choice) ─
+# ── static library (always built, small, gives embedders choice) ─
 add_library(wasabiqt_static STATIC
     ${WASABIQT_SOURCES}
     ${WASABIQT_PORT_OBJECTS})
@@ -92,7 +92,7 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/public/WasabiQt
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     FILES_MATCHING PATTERN "*.h")
 
-# CMake package config — lets downstream do find_package(WasabiQT).
+# CMake package config, lets downstream do find_package(WasabiQT).
 install(EXPORT WasabiQTTargets
     FILE WasabiQTTargets.cmake
     NAMESPACE WasabiQT::
@@ -113,7 +113,7 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/WasabiQTConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/WasabiQT)
 
-# pkg-config (.pc) — for autotools / non-CMake consumers.
+# pkg-config (.pc), for autotools / non-CMake consumers.
 configure_file(
     ${CMAKE_SOURCE_DIR}/cmake/wasabiqt.pc.in
     ${CMAKE_CURRENT_BINARY_DIR}/wasabiqt.pc @ONLY)

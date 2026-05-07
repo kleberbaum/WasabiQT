@@ -1,4 +1,4 @@
-// M6 — layout expansion: groupdef instantiation + sendparams.
+// M6, layout expansion: groupdef instantiation + sendparams.
 
 #include <WasabiQt/Layout.h>
 #include <WasabiQt/SkinXml.h>
@@ -79,7 +79,7 @@ private slots:
 
     void instantiatesGroupdefAndAppliesSendparams() {
         // The titlebar groupdef gets instantiated as left + right
-        // streaks with different sendparam overrides.  After
+        // streaks with different sendparam overrides. After
         // expansion, both instances should exist and the right
         // streak's center.active layer should have its `w` overridden
         // to "-20" by the sendparam.
@@ -94,13 +94,13 @@ private slots:
         QVERIFY(expandLayout(d, QStringLiteral("main"),
                              QStringLiteral("normal"), tree));
 
-        // The titlebar group is itself an instantiation.  Find it.
+        // The titlebar group is itself an instantiation. Find it.
         const auto *streakLeft  = findById(tree, QStringLiteral("wasabi.titlebar.streak"));
         QVERIFY2(streakLeft != nullptr,
                  "titlebar streak group missing from main/normal");
 
         // Inside, the groupdef expanded to layers including
-        // titlebar.center.active.  After sendparams, its w must be -20.
+        // titlebar.center.active. After sendparams, its w must be -20.
         const auto *center =
             findById(*streakLeft, QStringLiteral("titlebar.center.active"));
         QVERIFY2(center != nullptr,

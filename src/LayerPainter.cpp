@@ -39,7 +39,7 @@ bool paintLayer(QPainter *p, BitmapRegistry &reg,
     int h = attrInt(attrs, QStringLiteral("h"), 0);
 
     // relatx=1: x is taken relative to the right edge of the container
-    // (`x="-10" relatx="1"` ⇒ container.width() - 10).  Same for y.
+    // (`x="-10" relatx="1"` ⇒ container.width() - 10). Same for y.
     if (attrBool(attrs, QStringLiteral("relatx"))) x = containerSize.width()  + x;
     if (attrBool(attrs, QStringLiteral("relaty"))) y = containerSize.height() + y;
     if (attrBool(attrs, QStringLiteral("relatw"))) w = containerSize.width()  + w;
@@ -47,8 +47,8 @@ bool paintLayer(QPainter *p, BitmapRegistry &reg,
     if (w <= 0) w = src.width();
     if (h <= 0) h = src.height();
 
-    // `alpha=` (0-255) — Wasabi-style attribute for layer-wide
-    // translucency.  Honour it via QPainter::opacity around the
+    // `alpha=` (0-255), Wasabi-style attribute for layer-wide
+    // translucency. Honour it via QPainter::opacity around the
     // drawImage call.
     auto alphaIt = attrs.constFind(QStringLiteral("alpha"));
     if (alphaIt != attrs.constEnd()) {
