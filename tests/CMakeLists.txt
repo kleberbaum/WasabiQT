@@ -64,3 +64,11 @@ target_link_libraries(skinview_test PRIVATE
 add_test(NAME skinview COMMAND skinview_test)
 set_tests_properties(skinview PROPERTIES
     ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
+
+# M10 — bitmap-font text painter renders timer/song-info digits.
+add_executable(text_paint_test text_paint_test.cpp)
+target_link_libraries(text_paint_test PRIVATE
+    wasabiqt
+    Qt6::Test
+    Qt6::Gui)
+add_test(NAME text_paint COMMAND text_paint_test)
